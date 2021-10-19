@@ -1,28 +1,27 @@
 import { Button } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCardsAction } from '../actions/cardsActions'
-import { stateInterface } from '../reducers/cardsReducers'
-import { START_CARDS_DOWNLOAD } from '../types'
+import { GetCards } from '../actions/cardsActions'
+import { RootStore } from '../store'
 
-interface Props {
-    name: string
-}
 
-function Home({name}:Props) {
 
+function Home() {
     const dispatch = useDispatch()
-    const loading = useSelector<stateInterface>(state => state.loading)
 
-    const changeLoading =()=>{
-        dispatch({type:START_CARDS_DOWNLOAD,payload:!loading})
-    }
+    useEffect(() => {
+        const getCards =()=> dispatch(GetCards())
+        getCards()
+    }, [dispatch])
 
 
-    return (
+    const cards = useSelector((state: RootStore) => state.cards)
+
+    console.log(cards)
+
+   return (
         <div>
-            <Button variant='contained' onClick={changeLoading} > Switch loading</Button>
-            {loading && <div>hola loading</div> }
+            <Button variant='contained'  > Switch loading</Button>
         </div>
     )
 }

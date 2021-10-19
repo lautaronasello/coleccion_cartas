@@ -1,8 +1,9 @@
 import { applyMiddleware, createStore,compose } from "redux";
 import thunk from "redux-thunk";
-import {Reducer} from './reducers/cardsReducers'
+import RootReducer from "./reducers";
 
-export const store = createStore(Reducer,
+const store = createStore(
+    RootReducer,
     compose(
         applyMiddleware(thunk),
         typeof (window as any ) === 'object' &&
@@ -11,3 +12,7 @@ export const store = createStore(Reducer,
       : undefined
     )
     )
+
+export type RootStore = ReturnType<typeof RootReducer>
+
+export default store
