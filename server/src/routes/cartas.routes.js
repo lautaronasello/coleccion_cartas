@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const routerCartas = express.Router();
 const {
   getCards,
   postCards,
@@ -8,16 +8,14 @@ const {
   updateCardById,
 } = require('../controllers/cartas.controller');
 
-router.get('/cards', getCards);
+routerCartas.get('/cards', getCards);
 
-router.post('/cards', postCards);
+routerCartas.post('/cards', postCards);
 
-router.get('/cards/:id', getCardById);
+routerCartas.get('/cards/:id', getCardById);
 
-router.delete('/cards/:id', deleteCardById);
+routerCartas.delete('/cards/:id', deleteCardById);
 
-router.put('/cards/:id', updateCardById);
+routerCartas.put('/cards/:id', updateCardById);
 
-// router.update('/cards');
-
-module.exports = router;
+module.exports = routerCartas;

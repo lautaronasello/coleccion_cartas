@@ -1,0 +1,1 @@
+export const START_CARDS_DOWNLOAD:string = 'START_CARDS_DOWNLOAD';
