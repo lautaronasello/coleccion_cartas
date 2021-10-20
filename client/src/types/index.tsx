@@ -4,10 +4,6 @@ export const CARD_FAIL = 'CARD_FAIL';
 export const CARD_SUCCESS = 'CARD_SUCCESS';
 
 export type CardType = {
-  data: CardData[];
-};
-
-export type CardData = {
   apellido: string;
   equipo: string;
   foto: string;

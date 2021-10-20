@@ -1,4 +1,5 @@
 import {
+  CardData,
   CardDispatchTypes,
   CardType,
   CARD_FAIL,
@@ -9,18 +10,16 @@ import axios from 'axios';
 import { Dispatch } from 'hoist-non-react-statics/node_modules/@types/react';
 
 export const GetCards = () => async (dispatch: Dispatch<CardDispatchTypes>) => {
-  let res: CardType[];
-
   try {
     dispatch({
       type: CARD_LOADING,
     });
 
-    res = await axios.get('http://localhost:4000/cards');
+    const res = await axios.get<CardType[]>('http://localhost:4000/cards');
 
     dispatch({
       type: CARD_SUCCESS,
-      payload: res,
+      payload: res.data,
     });
   } catch (err) {
     dispatch({

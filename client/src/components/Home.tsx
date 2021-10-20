@@ -1,4 +1,4 @@
-import { CircularProgress, Grid } from '@mui/material';
+import { CircularProgress, Grid, List, ListItemText } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,13 +15,14 @@ function Home() {
 
   const cardsState = useSelector((state: RootStore) => state.cards);
 
-  console.log(cardsState);
+  cardsState.cards.length !== 0 && console.log(cardsState.cards);
+
   return (
     <Box sx={{ bgcolor: 'background.paper' }}>
       {cardsState.loading && <CircularProgress />}
       <Grid container sx={{ pt: 5 }} spacing={1}>
-        {/* {cardsState.cards &&
-          cardsState.cards.data.map((data) => {
+        {cardsState.cards.length !== 0 &&
+          cardsState.cards.map((data) => {
             return (
               <Grid key={data.id} sx={{ border: 1, mr: 1 }} item md={3}>
                 <List>
@@ -35,7 +36,7 @@ function Home() {
                 </List>
               </Grid>
             );
-          })} */}
+          })}
       </Grid>
     </Box>
   );
