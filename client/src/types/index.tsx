@@ -4,22 +4,7 @@ export const CARD_FAIL = 'CARD_FAIL'
 export const CARD_SUCCESS = 'CARD_SUCCESS'
 
 export type CardsTypes ={
-    // data:{
-    //     id: number,
-    //     name: string,
-    //     lastname:string,
-    //     picture: string,
-    //     rarity:string,
-    //     position:string,
-    //     team:string,
-    //     serie:string
-    // }
-    cards:allCards[]
-}
-
-export type allCards ={
-    
-        id: number,
+    id: number,
         name: string,
         lastname:string,
         picture: string,
@@ -27,8 +12,9 @@ export type allCards ={
         position:string,
         team:string,
         serie:string
-    
 }
+
+
 
 export interface CardLoading {
     type: typeof CARD_LOADING
@@ -40,7 +26,7 @@ export interface CardFail {
 
 export interface CardSuccess {
     type: typeof CARD_SUCCESS,
-    payload: CardsTypes
+    payload: CardsTypes[]
 }
 
 export type CardDispatchTypes = CardLoading | CardFail | CardSuccess

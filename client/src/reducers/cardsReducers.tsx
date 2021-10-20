@@ -1,7 +1,7 @@
 import { CardDispatchTypes, CardsTypes, CARD_FAIL, CARD_LOADING, CARD_SUCCESS } from "../types";
 
 export interface stateInterface {
-        cards?:CardsTypes,
+        cards?:CardsTypes[],
         loading:boolean
 }
 
