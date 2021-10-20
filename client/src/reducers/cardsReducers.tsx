@@ -3,7 +3,6 @@ import {
   CARD_FAIL,
   CARD_LOADING,
   CARD_SUCCESS,
-  CardData,
   CardType,
 } from '../types';
 

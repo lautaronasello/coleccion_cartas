@@ -1,5 +1,4 @@
 import {
-  CardData,
   CardDispatchTypes,
   CardType,
   CARD_FAIL,
