@@ -1,11 +1,12 @@
 import { CircularProgress, Grid, List, ListItemText } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetCards } from '../actions/cardsActions';
 import { RootStore } from '../store';
+import CardHome from './CardHome';
 
-function Home() {
+const Home: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -15,31 +16,37 @@ function Home() {
 
   const cardsState = useSelector((state: RootStore) => state.cards);
 
-  cardsState.cards.length !== 0 && console.log(cardsState.cards);
-
   return (
-    <Box sx={{ bgcolor: 'background.paper' }}>
+    <Box>
       {cardsState.loading && <CircularProgress />}
-      <Grid container sx={{ pt: 5 }} spacing={1}>
+      <Grid
+        container
+        sx={{
+          pt: 5,
+          mx: 'auto',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         {cardsState.cards.length !== 0 &&
           cardsState.cards.map((data) => {
             return (
-              <Grid key={data.id} sx={{ border: 1, mr: 1 }} item md={3}>
-                <List>
-                  <ListItemText primary={data.nombre} />
-                  <ListItemText primary={data.apellido} />
-                  <ListItemText primary={data.equipo} />
-                  <ListItemText primary={data.foto} />
-                  <ListItemText primary={data.posicion} />
-                  <ListItemText primary={data.rareza} />
-                  <ListItemText primary={data.serie} />
-                </List>
-              </Grid>
+              <CardHome
+                key={data.id}
+                nombre={data.nombre}
+                apellido={data.apellido}
+                equipo={data.equipo}
+                posicion={data.posicion}
+                rareza={data.rareza}
+                serie={data.serie}
+                foto={data.foto}
+                id={data.id}
+              />
             );
           })}
       </Grid>
     </Box>
   );
-}
+};
 
 export default Home;
