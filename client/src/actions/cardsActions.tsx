@@ -1,15 +1,28 @@
-import { START_CARDS_DOWNLOAD } from "../types"
+import {
+  CardDispatchTypes,
+  CardType,
+  CARD_FAIL,
+  CARD_LOADING,
+  CARD_SUCCESS,
+} from '../types';
+import axios from 'axios';
+import { Dispatch } from 'hoist-non-react-statics/node_modules/@types/react';
 
-export function getCardsAction (){
-     return async (dispatch: (arg0: () => { type: string; payload: boolean }) => void) =>{
-        dispatch(downloadCards)
-    }
-}
+export const GetCards = () => async (dispatch: Dispatch<CardDispatchTypes>) => {
+  try {
+    dispatch({
+      type: CARD_LOADING,
+    });
 
+    const res = await axios.get<CardType[]>('http://localhost:4000/cards');
 
-const downloadCards =()=>({
-    type: START_CARDS_DOWNLOAD,
-    payload:true,
-})
-
-
+    dispatch({
+      type: CARD_SUCCESS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: CARD_FAIL,
+    });
+  }
+};

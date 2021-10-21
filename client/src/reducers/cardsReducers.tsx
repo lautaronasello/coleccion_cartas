@@ -1,28 +1,44 @@
-import { PayloadAction } from "@reduxjs/toolkit"
-import { START_CARDS_DOWNLOAD } from "../types";
+import {
+  CardDispatchTypes,
+  CARD_FAIL,
+  CARD_LOADING,
+  CARD_SUCCESS,
+  CardType,
+} from '../types';
 
 export interface stateInterface {
-    cards: string[],
-    loading?: boolean 
+  cards: CardType[];
+  loading: boolean;
 }
 
-const initialState ={
-    cards:[],
-    loading:false
-}
+const initialState: stateInterface = {
+  loading: false,
+  cards: [],
+};
 
-
-
-export const Reducer =(state:stateInterface = initialState,action:PayloadAction<boolean>)=>{
-switch (action.type) {
-    case START_CARDS_DOWNLOAD:
-        return{
-            ...state,
-            loading: action.payload
-        }
-        
+export default function Reducer(
+  state: stateInterface = initialState,
+  action: CardDispatchTypes
+): stateInterface {
+  switch (action.type) {
+    case CARD_FAIL:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CARD_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CARD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        cards: action.payload,
+      };
 
     default:
-        return state
-}
+      return state;
+  }
 }
