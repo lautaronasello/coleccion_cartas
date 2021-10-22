@@ -56,3 +56,6 @@ DELETE {{apiUsers}}/1
 
 ###
 GET {{apiCardsByUser}}
+
+###
+GET {{api}}/salvador
