@@ -11,6 +11,9 @@ export const CARD_SUCCESS = 'CARD_SUCCESS';
 export const CARD_SEARCH_SUCCESS = 'CARD_SEARCH_SUCCESS';
 export const CARD_SEARCH_LOADING = 'CARD_SEARCH_LOADING';
 export const CARD_SEARCH_FAIL = 'CARD_SEARCH_FAIL';
+export const CARD_ADD_LOADING = 'CARD_ADD_LOADING';
+export const CARD_ADD_FAIL = 'CARD_ADD_FAIL';
+export const CARD_ADD_SUCCESS = 'CARD_ADD_SUCCESS';
 
 export type CardType = {
   apellido: string;
@@ -23,23 +26,38 @@ export type CardType = {
   serie: string;
 };
 
+export type CardAddType = {
+  nombre: string;
+  apellido: string;
+  foto: string;
+  id_equipos: number;
+  id_posiciones: number;
+  id_rarezas: number;
+  id_series: number;
+};
+
 export type SearchType = {
   search: string;
 };
 
 export type TeamsType = {
+  id: number;
   equipo: string;
 };
 
 export type PositionsType = {
+  id: number;
+
   posicion: string;
 };
 
 export type RaritiesType = {
+  id: number;
   rareza: string;
 };
 
 export type SeriesType = {
+  id: number;
   serie: string;
 };
 
@@ -93,6 +111,20 @@ export interface SeriesSucces {
   payload: SeriesType[];
 }
 
+export interface CardAddLoading {
+  type: typeof CARD_ADD_LOADING;
+}
+
+export interface CardAddFail {
+  type: typeof CARD_ADD_FAIL;
+  payload: any;
+}
+
+export interface CardAddSucces {
+  type: typeof CARD_ADD_SUCCESS;
+  payload: string;
+}
+
 export type CardDispatchTypes =
   | CardLoading
   | CardFail
@@ -105,4 +137,7 @@ export type CardDispatchTypes =
   | TeamSuccess
   | PositionsSuccess
   | RaritiesSuccess
-  | SeriesSucces;
+  | SeriesSucces
+  | CardAddLoading
+  | CardAddFail
+  | CardAddSucces;

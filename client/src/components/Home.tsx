@@ -1,11 +1,13 @@
 import { CircularProgress, Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetCards } from '../actions/cardsActions';
 import { RootStore } from '../store';
-import CardHome from './Card';
+import Card from './Card';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import EditCard from './EditCard';
+import { createDecipheriv } from 'crypto';
 const Home: FC = () => {
   const dispatch = useDispatch();
 
@@ -35,6 +37,16 @@ const Home: FC = () => {
   if (cardSearch) {
     return (
       <Box>
+        <ArrowBackIosNewIcon
+          fontSize='large'
+          sx={{
+            cursor: 'pointer',
+            position: 'fixed',
+            top: '5rem',
+            left: '1rem',
+          }}
+          onClick={() => window.location.reload()}
+        />
         <Grid
           container
           sx={{
@@ -43,35 +55,20 @@ const Home: FC = () => {
             display: 'flex',
             justifyContent: 'center',
           }}
+          md={6}
         >
-          <Grid
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            item
-            xs={12}
-            md={6}
-            lg={3}
-          >
-            <ArrowBackIosNewIcon
-              fontSize='large'
-              sx={{ cursor: 'pointer' }}
-              onClick={() => window.location.reload()}
-            />
-            <CardHome
-              key={cardSearch[0].id}
-              nombre={cardSearch[0].nombre}
-              apellido={cardSearch[0].apellido}
-              equipo={cardSearch[0].equipo}
-              posicion={cardSearch[0].posicion}
-              rareza={cardSearch[0].rareza}
-              serie={cardSearch[0].serie}
-              foto={cardSearch[0].foto}
-              id={cardSearch[0].id}
-            />
-          </Grid>
+          <Card
+            key={cardSearch[0].id}
+            nombre={cardSearch[0].nombre}
+            apellido={cardSearch[0].apellido}
+            equipo={cardSearch[0].equipo}
+            posicion={cardSearch[0].posicion}
+            rareza={cardSearch[0].rareza}
+            serie={cardSearch[0].serie}
+            foto={cardSearch[0].foto}
+            id={cardSearch[0].id}
+          />
+          <EditCard />
         </Grid>
       </Box>
     );
@@ -91,7 +88,7 @@ const Home: FC = () => {
         {cardsState.cards.length !== 0 &&
           cardsState.cards.map((data) => {
             return (
-              <CardHome
+              <Card
                 key={data.id}
                 nombre={data.nombre}
                 apellido={data.apellido}

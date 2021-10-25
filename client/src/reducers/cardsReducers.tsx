@@ -17,6 +17,10 @@ import {
   POSITION_SUCCESS,
   RARITIES_SUCCESS,
   SERIES_SUCCESS,
+  CARD_ADD_LOADING,
+  CARD_ADD_FAIL,
+  CARD_ADD_SUCCESS,
+  CardAddType,
 } from '../types';
 
 export interface stateInterface {
@@ -27,6 +31,7 @@ export interface stateInterface {
   positions: PositionsType[];
   rarities: RaritiesType[];
   series: SeriesType[];
+  cardAdd: string;
 }
 
 const initialState: stateInterface = {
@@ -37,6 +42,7 @@ const initialState: stateInterface = {
   positions: [],
   rarities: [],
   series: [],
+  cardAdd: '',
 };
 
 export default function Reducer(
@@ -46,14 +52,15 @@ export default function Reducer(
   switch (action.type) {
     case CARD_FAIL:
     case CARD_SEARCH_FAIL:
-    case SELECTS_LOADING:
+    case SELECTS_FAIL:
       return {
         ...state,
         loading: false,
       };
     case CARD_LOADING:
     case CARD_SEARCH_LOADING:
-    case SELECTS_FAIL:
+    case SELECTS_LOADING:
+    case CARD_ADD_LOADING:
       return {
         ...state,
         loading: true,
@@ -94,6 +101,19 @@ export default function Reducer(
         loading: false,
         series: action.payload,
       };
+    case CARD_ADD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        cardAdd: action.payload,
+      };
+    case CARD_ADD_FAIL:
+      return {
+        ...state,
+        loading: false,
+        cardAdd: action.payload,
+      };
+
     default:
       return state;
   }

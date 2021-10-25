@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetCardByName } from '../actions/cardsActions';
 import { Link } from 'react-router-dom';
-import { RootStore } from '../store';
-import { constants } from 'crypto';
+// import { RootStore } from '../store';
 
 export default function Nav() {
   const dispatch = useDispatch();
@@ -21,11 +20,11 @@ export default function Nav() {
     dispatch(GetCardByName(cardNameSearch));
   };
 
-  const cardsState = useSelector((state: RootStore) => state.cards.cards);
+  // const cardsState = useSelector((state: RootStore) => state.cards.cards);
 
-  const namesCards = cardsState.map((data) => {
-    return [`${data.nombre}`, `${data.id}`];
-  });
+  // const namesCards = cardsState.map((data) => {
+  //   return [`${data.nombre}`];
+  // });
 
   return (
     <Box
@@ -84,8 +83,11 @@ export default function Nav() {
   );
 }
 
-// const namesCards = [
-//   { label: 'Salvador' },
-//   { label: 'DJ'  },
-//   { label: 'Manny' },
-//   { label: 'The Dark Knight'}]
+const namesCards = [
+  { label: 'Salvador' },
+  { label: 'Freddie' },
+  { label: 'Manny' },
+  { label: 'Fernando' },
+  { label: 'tatis' },
+  { label: 'DJ' },
+];

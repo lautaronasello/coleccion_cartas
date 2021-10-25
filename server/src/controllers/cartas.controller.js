@@ -48,7 +48,7 @@ const postCards = async (req, res) => {
       .input('id_series', sql.Int, id_series)
       .query(queries.insertCards);
 
-    res.status(200).json(result);
+    res.status(200).json('Success. Card created successfully');
   } catch (error) {
     res.status(500).send(error.message);
   }

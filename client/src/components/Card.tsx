@@ -15,7 +15,7 @@ interface DataInterface {
   serie: string;
 }
 
-export default function CardHome({
+export default function Card({
   nombre,
   apellido,
   posicion,
@@ -26,26 +26,24 @@ export default function CardHome({
 }: DataInterface) {
   const dispatch = useDispatch();
 
-  const [colorRarity, setColorRarity] = useState('#f5e88f');
-  const [colorBgName, setColorBgName] = useState('#ecc567');
-  switch (rareza) {
-    case 'oro':
-      setColorRarity('#f5e88f');
-      setColorBgName('#ecc567');
-      break;
+  // switch (rareza) {
+  //   case 'Oro':
+  //     setColorRarity('#f5e88f');
+  //     setColorBgName('#ecc567');
+  //     break;
 
-    case 'plata':
-      setColorRarity('#dedede');
-      setColorBgName('#bcc9d1');
-      break;
+  //   case 'Plata':
+  //     setColorRarity('#dedede');
+  //     setColorBgName('#bcc9d1');
+  //     break;
 
-    case 'bronze':
-      setColorRarity('#edb97f');
-      setColorBgName('#df9a65');
-      break;
-    default:
-      break;
-  }
+  //   case 'Bronze':
+  //     setColorRarity('#edb97f');
+  //     setColorBgName('#df9a65');
+  //     break;
+  //   default:
+  //     break;
+  // }
 
   const handleClick = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -62,9 +60,9 @@ export default function CardHome({
         m: '1rem',
         display: 'flex',
         flexDirection: 'column',
-        boxShadow: '0 1px 1px 0 rgb(0,0,0,0.1)',
+        boxShadow: '0 5px 5px 0 rgb(0,0,0,0.3)',
         borderRadius: '12px',
-        bgcolor: colorRarity,
+        bgcolor: 'whitesmoke',
         alignItems: 'center',
         height: '25rem',
         width: '18rem',
@@ -83,7 +81,7 @@ export default function CardHome({
       <Box
         component='span'
         sx={{
-          bgcolor: colorBgName,
+          bgcolor: 'grey',
           width: '100%',
           fontSize: 25,
           mt: '1rem',
@@ -108,6 +106,12 @@ export default function CardHome({
           Equipo:
           <Box sx={{ fontSize: '1rem', fontWeight: 'bold', ml: '3px' }}>
             {equipo}
+          </Box>
+        </Box>
+        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+          Rareza:
+          <Box sx={{ fontSize: '1rem', fontWeight: 'bold', ml: '3px' }}>
+            {rareza}
           </Box>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>

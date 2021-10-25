@@ -18,6 +18,10 @@ import {
   RaritiesType,
   SeriesType,
   SERIES_SUCCESS,
+  CARD_ADD_LOADING,
+  CARD_ADD_SUCCESS,
+  CARD_ADD_FAIL,
+  CardAddType,
 } from '../types';
 import axios from 'axios';
 import { Dispatch } from 'hoist-non-react-statics/node_modules/@types/react';
@@ -28,7 +32,9 @@ export const GetCards = () => async (dispatch: Dispatch<CardDispatchTypes>) => {
       type: CARD_LOADING,
     });
 
-    const res = await axios.get<CardType[]>('http://localhost:4000/cards');
+    const res = await axios.get<CardType[]>(
+      `${process.env.REACT_APP_API_URL}/cards`
+    );
 
     dispatch({
       type: CARD_SUCCESS,
@@ -49,7 +55,7 @@ export const GetCardByName =
       });
 
       const res = await axios.get<SearchType>(
-        `http://localhost:4000/cards/${cardName}`
+        `${process.env.REACT_APP_API_URL}/cards/${cardName}`
       );
 
       dispatch({
@@ -69,7 +75,9 @@ export const GetTeams = () => async (dispatch: Dispatch<CardDispatchTypes>) => {
       type: SELECTS_LOADING,
     });
 
-    const res = await axios.get<TeamsType[]>('http://localhost:4000/teams');
+    const res = await axios.get<TeamsType[]>(
+      `${process.env.REACT_APP_API_URL}/teams`
+    );
 
     dispatch({
       type: TEAM_SUCCESS,
@@ -90,7 +98,7 @@ export const GetPositions =
       });
 
       const res = await axios.get<PositionsType[]>(
-        'http://localhost:4000/positions'
+        `${process.env.REACT_APP_API_URL}/positions`
       );
 
       dispatch({
@@ -112,7 +120,7 @@ export const GetRarities =
       });
 
       const res = await axios.get<RaritiesType[]>(
-        'http://localhost:4000/rarities'
+        `${process.env.REACT_APP_API_URL}/rarities`
       );
 
       dispatch({
@@ -133,7 +141,9 @@ export const GetSeries =
         type: SELECTS_LOADING,
       });
 
-      const res = await axios.get<SeriesType[]>('http://localhost:4000/series');
+      const res = await axios.get<SeriesType[]>(
+        `${process.env.REACT_APP_API_URL}/series`
+      );
 
       dispatch({
         type: SERIES_SUCCESS,
@@ -142,6 +152,30 @@ export const GetSeries =
     } catch (err) {
       dispatch({
         type: SELECTS_FAIL,
+      });
+    }
+  };
+
+export const addCard =
+  (card: CardAddType) => async (dispatch: Dispatch<CardDispatchTypes>) => {
+    try {
+      dispatch({
+        type: CARD_ADD_LOADING,
+      });
+
+      const res = await axios.post<any>(
+        `${process.env.REACT_APP_API_URL}/cards`,
+        card
+      );
+
+      dispatch({
+        type: CARD_ADD_SUCCESS,
+        payload: res.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: CARD_ADD_FAIL,
+        payload: error,
       });
     }
   };

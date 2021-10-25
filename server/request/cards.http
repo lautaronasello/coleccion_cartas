@@ -1,5 +1,5 @@
-@api = http://localhost:4000/cards
-@apiUsers=http://localhost:4000/users
+@api = http://localhost:3000/cards
+@apiUsers=http://localhost:3000/users
 @apiCardsByUser=http://localhost:4000/users/1/cards
 
 GET {{api}}
@@ -9,17 +9,17 @@ POST {{api}}
 Content-Type: application/json
 
 {
-    "nombre":"Enrique",
-    "apellido":"Hernández",
-    "foto":"enrique_hernandez.jpg",
-    "id_rarezas":2,
-    "id_posiciones":4,
-    "id_equipos":2,
-    "id_series":1
+    "apellido": "nasello",
+"foto": "lautaro-nasello.jpg",
+"id_equipo": 11,
+"id_posicion": 2,
+"id_rareza": 2,
+"id_serie": 2,
+"nombre": "lautaro"
 }
 
 ###
-DELETE {{api}}/16
+DELETE {{api}}/20
 
 ### update
 
