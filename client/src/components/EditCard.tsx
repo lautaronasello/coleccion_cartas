@@ -100,7 +100,6 @@ export default function EditCard({ card }: card) {
 
   const handleClick = (event: React.MouseEvent) => {
     dispatch(editCardAction(editCard));
-    window.location.reload();
   };
 
   return (

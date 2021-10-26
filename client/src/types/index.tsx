@@ -132,7 +132,7 @@ export interface CardAddLoading {
 
 export interface CardAddFail {
   type: typeof CARD_ADD_FAIL;
-  payload: any;
+  payload: string;
 }
 
 export interface CardAddSuccess {
@@ -147,7 +147,7 @@ export interface CardEditSuccess {
 
 export interface CardDeleteFail {
   type: typeof CARD_DELETE_FAIL;
-  payload: any;
+  payload: string;
 }
 
 export interface CardDeleteStart {
@@ -156,7 +156,7 @@ export interface CardDeleteStart {
 
 export interface CardDeleteSuccess {
   type: typeof CARD_DELETE_SUCCESS;
-  payload: any;
+  payload: string;
 }
 
 export type CardDispatchTypes =

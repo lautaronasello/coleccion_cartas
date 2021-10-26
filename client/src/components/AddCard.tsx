@@ -82,7 +82,6 @@ export default function AddCard() {
   }, [name, lastName, team, position, rarity, serie]);
 
   const handleClick = (event: React.MouseEvent) => {
-    console.log(card);
     dispatch(addCard(card));
   };
 

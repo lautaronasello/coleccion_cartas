@@ -24,6 +24,9 @@ import {
   CARD_EDIT_SUCCESS,
   CardAddType,
   CardEditType,
+  CARD_DELETE_START,
+  CARD_DELETE_SUCCESS,
+  CARD_DELETE_FAIL,
 } from '../types';
 import axios from 'axios';
 import { Dispatch } from 'hoist-non-react-statics/node_modules/@types/react';
@@ -56,13 +59,13 @@ export const GetCardByName =
         type: CARD_SEARCH_LOADING,
       });
 
-      const res = await axios.get<SearchType>(
+      const res = await axios.get<SearchType[]>(
         `${process.env.REACT_APP_API_URL}/cards/${cardName}`
       );
 
       dispatch({
         type: CARD_SEARCH_SUCCESS,
-        payload: res.data,
+        payload: res.data[0],
       });
     } catch (err) {
       dispatch({
@@ -174,10 +177,12 @@ export const addCard =
         type: CARD_ADD_SUCCESS,
         payload: res.data,
       });
-    } catch (error) {
+
+      window.location.pathname = '/';
+    } catch (error: any) {
       dispatch({
         type: CARD_ADD_FAIL,
-        payload: error,
+        payload: error.message,
       });
     }
   };
@@ -201,6 +206,30 @@ export const editCardAction =
     } catch (error) {
       dispatch({
         type: CARD_FAIL,
+      });
+    }
+  };
+
+export const deleteCard =
+  (id: number) => async (dispatch: Dispatch<CardDispatchTypes>) => {
+    try {
+      dispatch({
+        type: CARD_DELETE_START,
+      });
+
+      const res = await axios.delete<string>(
+        `${process.env.REACT_APP_API_URL}/cards/${id}`
+      );
+
+      dispatch({
+        type: CARD_DELETE_SUCCESS,
+        payload: res.data,
+      });
+      //aca el catch me tira que si o si tiene que ser tipo any o unknown
+    } catch (error: any) {
+      dispatch({
+        type: CARD_DELETE_FAIL,
+        payload: error.message,
       });
     }
   };

@@ -98,7 +98,7 @@ const updateCardById = async (req, res) => {
     .input('id', sql.Int, id)
     .query(queries.updateCardById);
 
-  res.status(200).json(result);
+  res.status(200).json('Card edit successfully');
 };
 
 const getCardById = async (req, res) => {

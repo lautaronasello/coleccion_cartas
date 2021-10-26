@@ -79,19 +79,19 @@ const Home: FC = () => {
           >
             <Box>
               <Card
-                key={cardSearch[0].id}
-                nombre={cardSearch[0].nombre}
-                apellido={cardSearch[0].apellido}
-                equipo={cardSearch[0].equipo}
-                posicion={cardSearch[0].posicion}
-                rareza={cardSearch[0].rareza}
-                serie={cardSearch[0].serie}
-                foto={cardSearch[0].foto}
-                id={cardSearch[0].id}
+                key={cardSearch.id}
+                nombre={cardSearch.nombre}
+                apellido={cardSearch.apellido}
+                equipo={cardSearch.equipo}
+                posicion={cardSearch.posicion}
+                rareza={cardSearch.rareza}
+                serie={cardSearch.serie}
+                foto={cardSearch.foto}
+                id={cardSearch.id}
               />
-              <DeleteCard cardId={cardSearch[0].id} />
+              <DeleteCard cardId={cardSearch.id} />
             </Box>
-            <EditCard card={cardSearch && cardSearch[0]} />
+            <EditCard card={cardSearch && cardSearch} />
           </Grid>
         </Box>
       </>
