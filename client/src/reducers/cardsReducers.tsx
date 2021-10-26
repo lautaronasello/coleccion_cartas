@@ -20,7 +20,10 @@ import {
   CARD_ADD_LOADING,
   CARD_ADD_FAIL,
   CARD_ADD_SUCCESS,
-  CardAddType,
+  CARD_EDIT_SUCCESS,
+  CARD_DELETE_START,
+  CARD_DELETE_FAIL,
+  CARD_DELETE_SUCCESS,
 } from '../types';
 
 export interface stateInterface {
@@ -32,6 +35,8 @@ export interface stateInterface {
   rarities: RaritiesType[];
   series: SeriesType[];
   cardAdd: string;
+  cardEdit: string;
+  message: string;
 }
 
 const initialState: stateInterface = {
@@ -43,6 +48,8 @@ const initialState: stateInterface = {
   rarities: [],
   series: [],
   cardAdd: '',
+  cardEdit: '',
+  message: '',
 };
 
 export default function Reducer(
@@ -61,6 +68,7 @@ export default function Reducer(
     case CARD_SEARCH_LOADING:
     case SELECTS_LOADING:
     case CARD_ADD_LOADING:
+    case CARD_DELETE_START:
       return {
         ...state,
         loading: true,
@@ -101,17 +109,16 @@ export default function Reducer(
         loading: false,
         series: action.payload,
       };
-    case CARD_ADD_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        cardAdd: action.payload,
-      };
+
     case CARD_ADD_FAIL:
+    case CARD_ADD_SUCCESS:
+    case CARD_EDIT_SUCCESS:
+    case CARD_DELETE_FAIL:
+    case CARD_DELETE_SUCCESS:
       return {
         ...state,
         loading: false,
-        cardAdd: action.payload,
+        message: action.payload,
       };
 
     default:

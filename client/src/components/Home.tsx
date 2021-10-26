@@ -1,18 +1,31 @@
 import { CircularProgress, Grid } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetCards } from '../actions/cardsActions';
+import {
+  GetCards,
+  GetTeams,
+  GetPositions,
+  GetSeries,
+  GetRarities,
+} from '../actions/cardsActions';
 import { RootStore } from '../store';
 import Card from './Card';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import EditCard from './EditCard';
-import { createDecipheriv } from 'crypto';
+import DeleteCard from './DeleteCard';
+
 const Home: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getCards = () => dispatch(GetCards());
+    const getCards = () => {
+      dispatch(GetCards());
+      dispatch(GetTeams());
+      dispatch(GetPositions());
+      dispatch(GetSeries());
+      dispatch(GetRarities());
+    };
     getCards();
   }, [dispatch]);
 
@@ -36,7 +49,7 @@ const Home: FC = () => {
 
   if (cardSearch) {
     return (
-      <Box>
+      <>
         <ArrowBackIosNewIcon
           fontSize='large'
           sx={{
@@ -47,30 +60,41 @@ const Home: FC = () => {
           }}
           onClick={() => window.location.reload()}
         />
-        <Grid
-          container
+        <Box
           sx={{
-            pt: 5,
-            mx: 'auto',
             display: 'flex',
             justifyContent: 'center',
+            alignItems: 'center',
           }}
-          md={6}
         >
-          <Card
-            key={cardSearch[0].id}
-            nombre={cardSearch[0].nombre}
-            apellido={cardSearch[0].apellido}
-            equipo={cardSearch[0].equipo}
-            posicion={cardSearch[0].posicion}
-            rareza={cardSearch[0].rareza}
-            serie={cardSearch[0].serie}
-            foto={cardSearch[0].foto}
-            id={cardSearch[0].id}
-          />
-          <EditCard />
-        </Grid>
-      </Box>
+          <Grid
+            container
+            sx={{
+              mx: 'auto',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '80vh',
+            }}
+          >
+            <Box>
+              <Card
+                key={cardSearch[0].id}
+                nombre={cardSearch[0].nombre}
+                apellido={cardSearch[0].apellido}
+                equipo={cardSearch[0].equipo}
+                posicion={cardSearch[0].posicion}
+                rareza={cardSearch[0].rareza}
+                serie={cardSearch[0].serie}
+                foto={cardSearch[0].foto}
+                id={cardSearch[0].id}
+              />
+              <DeleteCard cardId={cardSearch[0].id} />
+            </Box>
+            <EditCard card={cardSearch && cardSearch[0]} />
+          </Grid>
+        </Box>
+      </>
     );
   }
 

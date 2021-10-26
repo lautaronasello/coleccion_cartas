@@ -68,20 +68,20 @@ export default function AddCard() {
   const seriesState = useSelector((state: RootStore) => state.cards.series);
 
   useEffect(() => {
-    const arrayCards = {
-      nombre: name,
-      apellido: lastName,
-      foto: `${name}-${lastName}.jpg`,
+    const postCard = {
+      nombre: name.charAt(0).toUpperCase() + name.slice(1),
+      apellido: lastName.charAt(0).toUpperCase() + lastName.slice(1),
+      foto: `${name.toLowerCase()}-${lastName.toLowerCase()}.jpg`,
       id_equipos: team,
       id_posiciones: position,
       id_rarezas: rarity,
       id_series: serie,
     };
 
-    setCard(arrayCards);
+    setCard(postCard);
   }, [name, lastName, team, position, rarity, serie]);
 
-  const handleClick = async (event: React.MouseEvent) => {
+  const handleClick = (event: React.MouseEvent) => {
     console.log(card);
     dispatch(addCard(card));
   };

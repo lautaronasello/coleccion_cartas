@@ -1,5 +1,5 @@
 import { Box } from '@mui/system';
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetCardByName } from '../actions/cardsActions';
 import { RootStore } from '../store';
@@ -25,25 +25,6 @@ export default function Card({
   serie,
 }: DataInterface) {
   const dispatch = useDispatch();
-
-  // switch (rareza) {
-  //   case 'Oro':
-  //     setColorRarity('#f5e88f');
-  //     setColorBgName('#ecc567');
-  //     break;
-
-  //   case 'Plata':
-  //     setColorRarity('#dedede');
-  //     setColorBgName('#bcc9d1');
-  //     break;
-
-  //   case 'Bronze':
-  //     setColorRarity('#edb97f');
-  //     setColorBgName('#df9a65');
-  //     break;
-  //   default:
-  //     break;
-  // }
 
   const handleClick = (event: React.MouseEvent) => {
     event.preventDefault();

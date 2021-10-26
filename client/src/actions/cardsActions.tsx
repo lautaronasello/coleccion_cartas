@@ -21,7 +21,9 @@ import {
   CARD_ADD_LOADING,
   CARD_ADD_SUCCESS,
   CARD_ADD_FAIL,
+  CARD_EDIT_SUCCESS,
   CardAddType,
+  CardEditType,
 } from '../types';
 import axios from 'axios';
 import { Dispatch } from 'hoist-non-react-statics/node_modules/@types/react';
@@ -176,6 +178,29 @@ export const addCard =
       dispatch({
         type: CARD_ADD_FAIL,
         payload: error,
+      });
+    }
+  };
+
+export const editCardAction =
+  (card: CardEditType) => async (dispatch: Dispatch<CardDispatchTypes>) => {
+    try {
+      dispatch({
+        type: CARD_LOADING,
+      });
+
+      const res = await axios.put<any>(
+        `${process.env.REACT_APP_API_URL}/cards/${card.id}`,
+        card
+      );
+
+      dispatch({
+        type: CARD_EDIT_SUCCESS,
+        payload: res.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: CARD_FAIL,
       });
     }
   };

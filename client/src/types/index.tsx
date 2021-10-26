@@ -14,6 +14,10 @@ export const CARD_SEARCH_FAIL = 'CARD_SEARCH_FAIL';
 export const CARD_ADD_LOADING = 'CARD_ADD_LOADING';
 export const CARD_ADD_FAIL = 'CARD_ADD_FAIL';
 export const CARD_ADD_SUCCESS = 'CARD_ADD_SUCCESS';
+export const CARD_EDIT_SUCCESS = 'CARD_EDIT_SUCCESS';
+export const CARD_DELETE_START = 'CARD_DELETE_START';
+export const CARD_DELETE_FAIL = 'CARD_DELETE_FAIL';
+export const CARD_DELETE_SUCCESS = 'CARD_DELETE_SUCCESS';
 
 export type CardType = {
   apellido: string;
@@ -27,6 +31,17 @@ export type CardType = {
 };
 
 export type CardAddType = {
+  nombre: string;
+  apellido: string;
+  foto: string;
+  id_equipos: number;
+  id_posiciones: number;
+  id_rarezas: number;
+  id_series: number;
+};
+
+export type CardEditType = {
+  id: number;
   nombre: string;
   apellido: string;
   foto: string;
@@ -120,9 +135,28 @@ export interface CardAddFail {
   payload: any;
 }
 
-export interface CardAddSucces {
+export interface CardAddSuccess {
   type: typeof CARD_ADD_SUCCESS;
   payload: string;
+}
+
+export interface CardEditSuccess {
+  type: typeof CARD_EDIT_SUCCESS;
+  payload: string;
+}
+
+export interface CardDeleteFail {
+  type: typeof CARD_DELETE_FAIL;
+  payload: any;
+}
+
+export interface CardDeleteStart {
+  type: typeof CARD_DELETE_START;
+}
+
+export interface CardDeleteSuccess {
+  type: typeof CARD_DELETE_SUCCESS;
+  payload: any;
 }
 
 export type CardDispatchTypes =
@@ -140,4 +174,8 @@ export type CardDispatchTypes =
   | SeriesSucces
   | CardAddLoading
   | CardAddFail
-  | CardAddSucces;
+  | CardAddSuccess
+  | CardEditSuccess
+  | CardDeleteFail
+  | CardDeleteStart
+  | CardDeleteSuccess;
