@@ -1,8 +1,31 @@
 import { Autocomplete, Button, TextField } from '@mui/material';
 import { Box } from '@mui/system';
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetCardByName } from '../actions/cardsActions';
+import { Link } from 'react-router-dom';
+// import { RootStore } from '../store';
 
 export default function Nav() {
+  const dispatch = useDispatch();
+
+  const [cardNameSearch, setCardNameSearch] = useState('');
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCardNameSearch(event.target.value);
+  };
+
+  const handleClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    dispatch(GetCardByName(cardNameSearch));
+  };
+
+  // const cardsState = useSelector((state: RootStore) => state.cards.cards);
+
+  // const namesCards = cardsState.map((data) => {
+  //   return [`${data.nombre}`];
+  // });
+
   return (
     <Box
       sx={{
@@ -11,6 +34,8 @@ export default function Nav() {
         display: 'flex',
         bgcolor: '#102578',
         alignItems: 'center',
+        position: 'sticky',
+        top: '0',
       }}
     >
       <Box
@@ -22,27 +47,35 @@ export default function Nav() {
           mx: '1rem',
         }}
       >
-        MLB - COLECCION
+        <Link style={{ color: 'white', textDecoration: 'none' }} to='/'>
+          MLB - COLECCION
+        </Link>
       </Box>
       <Autocomplete
         disablePortal
         id='cards-autocomplete'
         size='small'
-        options={top100Films}
+        options={namesCards}
         sx={{ width: 300 }}
         renderInput={(params) => (
           <TextField
-            color='warning'
-            sx={{ bgcolor: '#fafafa' }}
+            onChange={handleChange}
+            value={cardNameSearch}
+            sx={{ bgcolor: '#fafafa', borderRadius: 1 }}
             {...params}
             label='Player'
           />
         )}
       />
       <Button
+        onClick={handleClick}
         variant='contained'
         size='large'
-        sx={{ bgcolor: '#d71b29', mx: '1rem' }}
+        sx={{
+          bgcolor: '#d71b29',
+          mx: '1rem',
+          '&:hover': { bgcolor: '#b31621' },
+        }}
       >
         Buscar
       </Button>
@@ -50,9 +83,11 @@ export default function Nav() {
   );
 }
 
-const top100Films = [
-  { label: 'Salvador Perez', year: 1994 },
-  { label: 'Freddie Freeman', year: 1972 },
-  { label: 'DJ LeMahieu', year: 1974 },
-  { label: 'Manny Machado', year: 2008 },
+const namesCards = [
+  { label: 'Salvador' },
+  { label: 'Freddie' },
+  { label: 'Manny' },
+  { label: 'Fernando' },
+  { label: 'tatis' },
+  { label: 'DJ' },
 ];

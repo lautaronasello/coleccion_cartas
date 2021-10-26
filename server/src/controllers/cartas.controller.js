@@ -32,7 +32,7 @@ const postCards = async (req, res) => {
     id_series == null ||
     id_equipos == null
   ) {
-    return res.status(403).json({ msg: 'Bad Request. Please fill all fields' });
+    return res.status(400).json({ msg: 'Bad Request. Please fill all fields' });
   }
 
   try {
@@ -48,25 +48,10 @@ const postCards = async (req, res) => {
       .input('id_series', sql.Int, id_series)
       .query(queries.insertCards);
 
-    res.status(200).json(result);
+    res.status(200).json('Success. Card created successfully');
   } catch (error) {
     res.status(500).send(error.message);
   }
-};
-
-const getCardById = async (req, res) => {
-  const { id } = req.params;
-
-  const pool = await getConnection();
-  const result = await pool
-    .request()
-    .input('Id', id)
-    .query(queries.getCardById);
-
-  if (result.recordset.length === 0) {
-    return res.status(403).send('Forbbiden. The card is not in the colection.');
-  }
-  res.status(200).send(result.recordset[0]);
 };
 
 const deleteCardById = async (req, res) => {
@@ -80,7 +65,7 @@ const deleteCardById = async (req, res) => {
     .query(queries.deleteCardById);
 
   if (result.rowsAffected[0] === 0) {
-    return res.status(403).send('Forbidden. The card is not in the colection.');
+    return res.status(400).send('Forbidden. The card is not in the colection.');
   }
 
   res.status(200).send('Deleted card');
@@ -98,7 +83,7 @@ const updateCardById = async (req, res) => {
     id_posiciones == null ||
     id_equipos == null
   ) {
-    return res.status(403).json({ msg: 'Forbidden. Please fill all fields' });
+    return res.status(400).json({ msg: 'Forbidden. Please fill all fields' });
   }
 
   const pool = await getConnection();
@@ -116,10 +101,86 @@ const updateCardById = async (req, res) => {
   res.status(200).json(result);
 };
 
+const getCardById = async (req, res) => {
+  const { id } = req.params;
+
+  const pool = await getConnection();
+  const result = await pool
+    .request()
+    .input('Id', id)
+    .query(queries.getCardById);
+
+  if (result.recordset.length === 0) {
+    return res.status(400).send('Forbbiden. The card is not in the colection.');
+  }
+  res.status(200).send(result.recordset[0]);
+};
+
+const getCardByName = async (req, res) => {
+  const { name } = req.params;
+
+  const pool = await getConnection();
+  const result = await pool
+    .request()
+    .input('name', sql.VarChar, `%${name}%`)
+    .query(queries.getCardByName);
+
+  res.status(200).send(result.recordset);
+};
+
+const getTeams = async (req, res) => {
+  try {
+    const pool = await getConnection();
+    const result = await pool.request().query(queries.getTeams);
+    res.json(result.recordset);
+  } catch (error) {
+    res.status(500);
+    res.send(error.message);
+  }
+};
+
+const getSeries = async (req, res) => {
+  try {
+    const pool = await getConnection();
+    const result = await pool.request().query(queries.getSeries);
+    res.json(result.recordset);
+  } catch (error) {
+    res.status(500);
+    res.send(error.message);
+  }
+};
+
+const getPositions = async (req, res) => {
+  try {
+    const pool = await getConnection();
+    const result = await pool.request().query(queries.getPositions);
+    res.json(result.recordset);
+  } catch (error) {
+    res.status(500);
+    res.send(error.message);
+  }
+};
+
+const getRarities = async (req, res) => {
+  try {
+    const pool = await getConnection();
+    const result = await pool.request().query(queries.getRarities);
+    res.json(result.recordset);
+  } catch (error) {
+    res.status(500);
+    res.send(error.message);
+  }
+};
+
 module.exports = {
   getCards,
   postCards,
   getCardById,
   deleteCardById,
   updateCardById,
+  getCardByName,
+  getTeams,
+  getPositions,
+  getRarities,
+  getSeries,
 };

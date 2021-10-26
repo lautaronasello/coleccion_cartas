@@ -16,5 +16,11 @@ const queries = {
   updateUserById:
     'UPDATE usuarios SET usuario=@usuario, contraseña=@contraseña, email=@email, id_rol=@id_rol WHERE id=@id',
   getCardsByUser: 'SELECT * FROM cartasUsuario WHERE id_usuarios=@idUser',
+  getCardByName:
+    'SELECT c.id AS id,c.nombre AS nombre, c.apellido AS apellido, c.foto AS foto, r.rareza AS rareza,p.posicion AS posicion,e.equipo AS equipo,s.serie AS serie from cartas AS c JOIN rarezas AS r ON r.id = c.id_rarezas JOIN posiciones AS p ON p.id = c.id_posiciones JOIN equipos AS e ON e.id = c.id_equipos JOIN series AS s ON s.id = c.id_series WHERE nombre LIKE @name',
+  getTeams: 'SELECT id,equipo FROM equipos',
+  getPositions: 'SELECT id,posicion FROM posiciones ',
+  getRarities: 'SELECT id,rareza FROM rarezas',
+  getSeries: 'SELECT id,serie FROM series',
 };
 module.exports = { queries };
