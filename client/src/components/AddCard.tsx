@@ -17,6 +17,7 @@ import {
   addCard,
 } from '../actions/cardsActions';
 import { RootStore } from '../store';
+import { CardAddType } from '../types';
 
 export default function AddCard() {
   const dispatch = useDispatch();
@@ -27,7 +28,9 @@ export default function AddCard() {
   const [serie, setSerie] = useState('Seleccionar Serie');
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [card, setCard] = useState<any>();
+  const [isComplete, setIsComplete] = useState(false);
+
+  const [card, setCard] = useState<CardAddType>();
 
   useEffect(() => {
     const getAll = () => {
@@ -39,27 +42,6 @@ export default function AddCard() {
     getAll();
   }, [dispatch]);
 
-  const handleChangeName = (event: ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
-  const handleChangeLastName = (event: ChangeEvent<HTMLInputElement>) => {
-    setLastName(event.target.value);
-  };
-
-  const handleChangeTeam = (event: SelectChangeEvent) => {
-    setTeam(event.target.value);
-  };
-
-  const handleChangePosition = (event: SelectChangeEvent) => {
-    setPosition(event.target.value);
-  };
-  const handleChangeRarity = (event: SelectChangeEvent) => {
-    setRarity(event.target.value);
-  };
-  const handleChangeSerie = (event: SelectChangeEvent) => {
-    setSerie(event.target.value);
-  };
-
   const teamsState = useSelector((state: RootStore) => state.cards.teams);
   const positionsState = useSelector(
     (state: RootStore) => state.cards.positions
@@ -69,20 +51,47 @@ export default function AddCard() {
 
   useEffect(() => {
     const postCard = {
-      nombre: name.charAt(0).toUpperCase() + name.slice(1),
-      apellido: lastName.charAt(0).toUpperCase() + lastName.slice(1),
+      nombre: name.charAt(0).toUpperCase() + name.toLowerCase().slice(1),
+      apellido:
+        lastName.charAt(0).toUpperCase() + lastName.toLowerCase().slice(1),
       foto: `${name.toLowerCase()}-${lastName.toLowerCase()}.jpg`,
-      id_equipos: team,
-      id_posiciones: position,
-      id_rarezas: rarity,
-      id_series: serie,
+      id_equipos: parseInt(team),
+      id_posiciones: parseInt(position),
+      id_rarezas: parseInt(rarity),
+      id_series: parseInt(serie),
     };
+
+    const {
+      nombre,
+      apellido,
+      foto,
+      id_equipos,
+      id_posiciones,
+      id_rarezas,
+      id_series,
+    } = postCard;
+
+    if (
+      nombre !== '' &&
+      apellido !== '' &&
+      foto !== '-.jpg' &&
+      !Number.isNaN(id_equipos) &&
+      !Number.isNaN(id_posiciones) &&
+      !Number.isNaN(id_rarezas) &&
+      !Number.isNaN(id_series)
+    ) {
+      setIsComplete(true);
+    } else {
+      setIsComplete(false);
+    }
 
     setCard(postCard);
   }, [name, lastName, team, position, rarity, serie]);
 
   const handleClick = (event: React.MouseEvent) => {
-    dispatch(addCard(card));
+    if (!!card) {
+      dispatch(addCard(card));
+    }
   };
 
   return (
@@ -118,23 +127,32 @@ export default function AddCard() {
         >
           Agregar Cartas
         </Box>
-        <FormControl sx={{ width: '70%' }}>
+        <FormControl sx={{ width: '70%', my: 1 }}>
           <TextField
-            onChange={handleChangeName}
+            required
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setName(e.target.value);
+            }}
             label='Nombre'
             variant='standard'
           />
           <TextField
-            onChange={handleChangeLastName}
+            required
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setLastName(e.target.value);
+            }}
             label='Apellido'
             variant='standard'
           />
         </FormControl>
         <FormControl sx={{ width: '70%' }}>
           <Select
+            required
             sx={{ my: 1 }}
             value={team}
-            onChange={handleChangeTeam}
+            onChange={(e: SelectChangeEvent) => {
+              setTeam(e.target.value);
+            }}
             label='Equipo'
           >
             <MenuItem value='Seleccionar Equipo'>Selecciona Equipo</MenuItem>
@@ -150,9 +168,12 @@ export default function AddCard() {
         </FormControl>
         <FormControl sx={{ width: '70%' }}>
           <Select
+            required
             sx={{ my: 1 }}
             value={position}
-            onChange={handleChangePosition}
+            onChange={(e: SelectChangeEvent) => {
+              setPosition(e.target.value);
+            }}
             label='Posición'
           >
             <MenuItem value='Seleccionar Posicion'>
@@ -170,10 +191,13 @@ export default function AddCard() {
         </FormControl>
         <FormControl sx={{ width: '70%' }}>
           <Select
+            required
             sx={{ my: 1 }}
+            label='Seleccionar Rareza'
             value={rarity}
-            onChange={handleChangeRarity}
-            label='Rareza'
+            onChange={(e: SelectChangeEvent) => {
+              setRarity(e.target.value);
+            }}
           >
             <MenuItem value='Seleccionar Rareza'>Seleccionar Rareza</MenuItem>
             {raritiesState &&
@@ -188,9 +212,12 @@ export default function AddCard() {
         </FormControl>
         <FormControl sx={{ width: '70%' }}>
           <Select
+            required
             sx={{ my: 1 }}
             value={serie}
-            onChange={handleChangeSerie}
+            onChange={(e: SelectChangeEvent) => {
+              setSerie(e.target.value);
+            }}
             label='Serie'
           >
             <MenuItem value='Seleccionar Serie'>Seleccionar Serie</MenuItem>
@@ -204,18 +231,34 @@ export default function AddCard() {
               })}
           </Select>
         </FormControl>
-        <Button
-          onClick={handleClick}
-          variant='contained'
-          size='large'
-          sx={{
-            bgcolor: '#d71b29',
-            mx: '1rem',
-            '&:hover': { bgcolor: '#b31621' },
-          }}
-        >
-          Agregar
-        </Button>
+        {isComplete ? (
+          <Button
+            onClick={handleClick}
+            variant='contained'
+            size='large'
+            sx={{
+              bgcolor: '#d71b29',
+              mx: '1rem',
+              '&:hover': { bgcolor: '#b31621' },
+            }}
+          >
+            Agregar
+          </Button>
+        ) : (
+          <Button
+            disabled
+            onClick={handleClick}
+            variant='contained'
+            size='large'
+            sx={{
+              bgcolor: '#d71b29',
+              mx: '1rem',
+              '&:hover': { bgcolor: '#b31621' },
+            }}
+          >
+            Agregar
+          </Button>
+        )}
       </Box>
     </Box>
   );
