@@ -1,6 +1,5 @@
 const queries = {
-  getAllCards:
-    'SELECT c.id AS id,c.nombre AS nombre, c.apellido AS apellido, c.foto AS foto, r.rareza AS rareza,p.posicion AS posicion,e.equipo AS equipo,s.serie AS serie from cartas AS c JOIN rarezas AS r ON r.id = c.id_rarezas JOIN posiciones AS p ON p.id = c.id_posiciones JOIN equipos AS e ON e.id = c.id_equipos JOIN series AS s ON s.id = c.id_series WHERE isDeleted = 0',
+  getAllCards: `SELECT (select cartas.id AS [cartas.id],CONCAT(cartas.nombre, ' ', cartas.apellido) as [cartas.nombre], cartas.foto AS [cartas.foto],rarezas.id as [rarezas.id] , rarezas.rareza AS [rarezas.rareza],posiciones.id as [posiciones.id],posiciones.posicion AS [posiciones.posicion],equipos.id as [equipos.id] ,equipos.equipo AS [equipos.equipo],series.id as [series.id],series.serie AS [series.serie] from cartas JOIN rarezas  ON rarezas.id = cartas.id_rarezas JOIN posiciones  ON posiciones.id = cartas.id_posiciones JOIN equipos ON equipos.id = cartas.id_equipos JOIN series ON series.id = cartas.id_series WHERE isDeleted = 0 for json path) as data`,
   insertCards:
     'INSERT INTO cartas (nombre,apellido,foto,id_rarezas,id_posiciones,id_equipos,id_series)VALUES (@nombre,@apellido,@foto,@id_rarezas,@id_posiciones,@id_equipos,@id_series)',
   getCardById: 'SELECT * FROM cartas WHERE id=@id AND isDeleted=0',
@@ -16,8 +15,7 @@ const queries = {
   updateUserById:
     'UPDATE usuarios SET usuario=@usuario, contraseña=@contraseña, email=@email, id_rol=@id_rol WHERE id=@id',
   getCardsByUser: 'SELECT * FROM cartasUsuario WHERE id_usuarios=@idUser',
-  getCardByName:
-    'SELECT c.id AS id,c.nombre AS nombre, c.apellido AS apellido, c.foto AS foto, r.rareza AS rareza,p.posicion AS posicion,e.equipo AS equipo,s.serie AS serie from cartas AS c JOIN rarezas AS r ON r.id = c.id_rarezas JOIN posiciones AS p ON p.id = c.id_posiciones JOIN equipos AS e ON e.id = c.id_equipos JOIN series AS s ON s.id = c.id_series WHERE nombre LIKE @name',
+  getCardByName: `SELECT (select cartas.id AS [cartas.id],CONCAT(cartas.nombre, ' ', cartas.apellido) as [cartas.nombre], cartas.foto AS [cartas.foto],rarezas.id as [rarezas.id] , rarezas.rareza AS [rarezas.rareza],posiciones.id as [posiciones.id],posiciones.posicion AS [posiciones.posicion],equipos.id as [equipos.id] ,equipos.equipo AS [equipos.equipo],series.id as [series.id],series.serie AS [series.serie] from cartas JOIN rarezas  ON rarezas.id = cartas.id_rarezas JOIN posiciones  ON posiciones.id = cartas.id_posiciones JOIN equipos ON equipos.id = cartas.id_equipos JOIN series ON series.id = cartas.id_series WHERE isDeleted = 0 AND nombre LIKE @name for json path) as data`,
   getTeams: 'SELECT id,equipo FROM equipos',
   getPositions: 'SELECT id,posicion FROM posiciones ',
   getRarities: 'SELECT id,rareza FROM rarezas',

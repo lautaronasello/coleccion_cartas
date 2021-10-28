@@ -11,18 +11,17 @@ import {
   SELECTS_LOADING,
   TEAM_SUCCESS,
   SELECTS_FAIL,
-  TeamsType,
+  TeamInterface,
   POSITION_SUCCESS,
   RARITIES_SUCCESS,
-  PositionsType,
-  RaritiesType,
-  SeriesType,
+  PositionInterface,
+  RarityInterface,
+  SeriesInterface,
   SERIES_SUCCESS,
   CARD_ADD_LOADING,
   CARD_ADD_SUCCESS,
   CARD_ADD_FAIL,
   CARD_EDIT_SUCCESS,
-  CardAddType,
   CardEditType,
   CARD_DELETE_START,
   CARD_DELETE_SUCCESS,
@@ -65,7 +64,7 @@ export const GetCardByName =
 
       dispatch({
         type: CARD_SEARCH_SUCCESS,
-        payload: res.data[0],
+        payload: res.data,
       });
     } catch (err) {
       dispatch({
@@ -80,7 +79,7 @@ export const GetTeams = () => async (dispatch: Dispatch<CardDispatchTypes>) => {
       type: SELECTS_LOADING,
     });
 
-    const res = await axios.get<TeamsType[]>(
+    const res = await axios.get<TeamInterface[]>(
       `${process.env.REACT_APP_API_URL}/teams`
     );
 
@@ -102,7 +101,7 @@ export const GetPositions =
         type: SELECTS_LOADING,
       });
 
-      const res = await axios.get<PositionsType[]>(
+      const res = await axios.get<PositionInterface[]>(
         `${process.env.REACT_APP_API_URL}/positions`
       );
 
@@ -124,7 +123,7 @@ export const GetRarities =
         type: SELECTS_LOADING,
       });
 
-      const res = await axios.get<RaritiesType[]>(
+      const res = await axios.get<RarityInterface[]>(
         `${process.env.REACT_APP_API_URL}/rarities`
       );
 
@@ -146,7 +145,7 @@ export const GetSeries =
         type: SELECTS_LOADING,
       });
 
-      const res = await axios.get<SeriesType[]>(
+      const res = await axios.get<SeriesInterface[]>(
         `${process.env.REACT_APP_API_URL}/series`
       );
 
@@ -162,7 +161,7 @@ export const GetSeries =
   };
 
 export const addCard =
-  (card: CardAddType) => async (dispatch: Dispatch<CardDispatchTypes>) => {
+  (card: CardType) => async (dispatch: Dispatch<CardDispatchTypes>) => {
     try {
       dispatch({
         type: CARD_ADD_LOADING,
@@ -177,8 +176,6 @@ export const addCard =
         type: CARD_ADD_SUCCESS,
         payload: res.data,
       });
-
-      window.location.pathname = '/';
     } catch (error: any) {
       dispatch({
         type: CARD_ADD_FAIL,

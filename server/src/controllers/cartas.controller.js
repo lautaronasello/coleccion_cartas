@@ -5,7 +5,7 @@ const getCards = async (req, res) => {
   try {
     const pool = await getConnection();
     const result = await pool.request().query(queries.getAllCards);
-    res.json(result.recordset);
+    res.json(JSON.parse(result.recordset[0].data));
   } catch (error) {
     res.status(500);
     res.send(error.message);
@@ -125,7 +125,7 @@ const getCardByName = async (req, res) => {
     .input('name', sql.VarChar, `%${name}%`)
     .query(queries.getCardByName);
 
-  res.status(200).send(result.recordset);
+  res.status(200).json(JSON.parse(result.recordset[0].data));
 };
 
 const getTeams = async (req, res) => {

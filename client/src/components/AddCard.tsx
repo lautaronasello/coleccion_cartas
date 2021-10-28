@@ -25,7 +25,7 @@ export default function AddCard() {
   const [team, setTeam] = useState('Seleccionar Equipo');
   const [position, setPosition] = useState('Seleccionar Posicion');
   const [rarity, setRarity] = useState('Seleccionar Rareza');
-  const [serie, setSerie] = useState('Seleccionar Serie');
+  const [serie, setSerie] = useState<number>(0);
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [isComplete, setIsComplete] = useState(false);
@@ -58,7 +58,7 @@ export default function AddCard() {
       id_equipos: parseInt(team),
       id_posiciones: parseInt(position),
       id_rarezas: parseInt(rarity),
-      id_series: parseInt(serie),
+      id_series: serie,
     };
 
     const {
@@ -92,6 +92,10 @@ export default function AddCard() {
     if (!!card) {
       dispatch(addCard(card));
     }
+  };
+
+  const handleChange = (e: any) => {
+    setSerie(e.target.value);
   };
 
   return (
@@ -215,12 +219,10 @@ export default function AddCard() {
             required
             sx={{ my: 1 }}
             value={serie}
-            onChange={(e: SelectChangeEvent) => {
-              setSerie(e.target.value);
-            }}
+            onChange={handleChange}
             label='Serie'
           >
-            <MenuItem value='Seleccionar Serie'>Seleccionar Serie</MenuItem>
+            <MenuItem value={0}>Seleccionar Serie</MenuItem>
             {seriesState &&
               seriesState.map((data) => {
                 return (
