@@ -1,13 +1,12 @@
 import { Box } from '@mui/system';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetCardByName } from '../actions/cardsActions';
+import { GetCardById } from '../actions/cardsActions';
 import { RootStore } from '../store';
 
 interface DataInterface {
   id: number;
   nombre: string;
-  apellido: string;
   equipo: string;
   foto: string;
   posicion: string;
@@ -16,8 +15,8 @@ interface DataInterface {
 }
 
 export default function Card({
+  id,
   nombre,
-  apellido,
   posicion,
   foto,
   equipo,
@@ -27,12 +26,13 @@ export default function Card({
   const dispatch = useDispatch();
 
   const handleClick = (event: React.MouseEvent) => {
-    event.preventDefault();
-    dispatch(GetCardByName(nombre));
+    if (cardSearch.length === 0) {
+      event.preventDefault();
+      dispatch(GetCardById(id));
+    } else return;
   };
 
   const cardSearch = useSelector((state: RootStore) => state.cards.search);
-
   return (
     <Box
       onClick={handleClick}
@@ -49,14 +49,14 @@ export default function Card({
         width: '18rem',
         '&:hover': {
           boxShadow: '0 10px 15px 0 rgb(0,0,0,0.5)',
-          cursor: cardSearch ? 'default' : 'pointer',
+          cursor: cardSearch.length === 0 ? 'pointer' : 'default',
         },
       }}
     >
       <Box
         component='img'
         sx={{ height: '12rem', width: '15rem', border: 1, mt: '1rem' }}
-        alt={`${nombre} ${apellido} - ${posicion}`}
+        alt={`${nombre} - ${posicion}`}
         src={foto}
       />
       <Box
@@ -72,7 +72,7 @@ export default function Card({
           height: '3rem',
         }}
       >
-        {nombre} {apellido} - {posicion}
+        {nombre} - {posicion}
       </Box>
       <Box
         sx={{

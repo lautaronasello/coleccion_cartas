@@ -30,7 +30,7 @@ import {
 export interface stateInterface {
   cards: CardType[];
   loading: boolean;
-  search: SearchType[];
+  search: CardType[];
   teams: TeamInterface[];
   positions: PositionInterface[];
   rarities: RarityInterface[];
