@@ -1,6 +1,7 @@
 @api = http://localhost:3000/cards
 @apiUsers=http://localhost:3000/users
 @apiCardsByUser=http://localhost:4000/users/1/cards
+@host300=http://localhost:3000
 
 GET {{api}}
 
@@ -58,4 +59,4 @@ DELETE {{apiUsers}}/1
 GET {{apiCardsByUser}}
 
 ###
-GET {{api}}/salvador
+GET {{host300}}/cache   
