@@ -7,13 +7,9 @@ import {
   CARD_SEARCH_SUCCESS,
   CARD_SEARCH_LOADING,
   CardType,
-  TeamsType,
   SELECTS_LOADING,
   SELECTS_FAIL,
   TEAM_SUCCESS,
-  PositionsType,
-  RaritiesType,
-  SeriesType,
   POSITION_SUCCESS,
   RARITIES_SUCCESS,
   SERIES_SUCCESS,
@@ -24,31 +20,32 @@ import {
   CARD_DELETE_START,
   CARD_DELETE_FAIL,
   CARD_DELETE_SUCCESS,
+  TeamInterface,
+  PositionInterface,
+  RarityInterface,
+  SeriesInterface,
+  SearchType,
 } from '../types';
 
 export interface stateInterface {
   cards: CardType[];
   loading: boolean;
-  search: any;
-  teams: TeamsType[];
-  positions: PositionsType[];
-  rarities: RaritiesType[];
-  series: SeriesType[];
-  cardAdd: string;
-  cardEdit: string;
+  search: SearchType[];
+  teams: TeamInterface[];
+  positions: PositionInterface[];
+  rarities: RarityInterface[];
+  series: SeriesInterface[];
   message: string;
 }
 
 const initialState: stateInterface = {
   loading: false,
   cards: [],
-  search: '',
   teams: [],
+  search: [],
   positions: [],
   rarities: [],
   series: [],
-  cardAdd: '',
-  cardEdit: '',
   message: '',
 };
 

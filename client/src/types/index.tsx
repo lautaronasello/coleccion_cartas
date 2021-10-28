@@ -19,25 +19,37 @@ export const CARD_DELETE_START = 'CARD_DELETE_START';
 export const CARD_DELETE_FAIL = 'CARD_DELETE_FAIL';
 export const CARD_DELETE_SUCCESS = 'CARD_DELETE_SUCCESS';
 
-export type CardType = {
-  apellido: string;
-  equipo: string;
-  foto: string;
+export interface CardInterface {
   id: number;
   nombre: string;
-  posicion: string;
-  rareza: string;
-  serie: string;
-};
+  fot: string;
+}
 
-export type CardAddType = {
-  nombre: string;
-  apellido: string;
-  foto: string;
-  id_equipos: number;
-  id_posiciones: number;
-  id_rarezas: number;
-  id_series: number;
+export interface RarityInterface {
+  id: number;
+  rareza: string;
+}
+
+export interface PositionInterface {
+  id: number;
+  posicion: string;
+}
+
+export interface TeamInterface {
+  id: number;
+  equipo: string;
+}
+
+export interface SeriesInterface {
+  id: number;
+  series: string;
+}
+export type CardType = {
+  cartas: CardInterface;
+  rarezas: RarityInterface;
+  posiciones: PositionInterface;
+  equipos: TeamInterface;
+  series: SeriesInterface;
 };
 
 export type CardEditType = {
@@ -52,28 +64,7 @@ export type CardEditType = {
 };
 
 export type SearchType = {
-  search: string;
-};
-
-export type TeamsType = {
-  id: number;
-  equipo: string;
-};
-
-export type PositionsType = {
-  id: number;
-
-  posicion: string;
-};
-
-export type RaritiesType = {
-  id: number;
-  rareza: string;
-};
-
-export type SeriesType = {
-  id: number;
-  serie: string;
+  search: CardType;
 };
 
 export interface CardLoading {
@@ -98,7 +89,7 @@ export interface CardSearchFail {
 
 export interface CardSearchSuccess {
   type: typeof CARD_SEARCH_SUCCESS;
-  payload: SearchType;
+  payload: SearchType[];
 }
 
 export interface SelectsLoading {
@@ -111,19 +102,19 @@ export interface SelectsFail {
 
 export interface TeamSuccess {
   type: typeof TEAM_SUCCESS;
-  payload: TeamsType[];
+  payload: TeamInterface[];
 }
 export interface PositionsSuccess {
   type: typeof POSITION_SUCCESS;
-  payload: PositionsType[];
+  payload: PositionInterface[];
 }
 export interface RaritiesSuccess {
   type: typeof RARITIES_SUCCESS;
-  payload: RaritiesType[];
+  payload: RarityInterface[];
 }
 export interface SeriesSucces {
   type: typeof SERIES_SUCCESS;
-  payload: SeriesType[];
+  payload: SeriesInterface[];
 }
 
 export interface CardAddLoading {
