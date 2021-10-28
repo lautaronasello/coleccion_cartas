@@ -17,7 +17,7 @@ import {
   addCard,
 } from '../actions/cardsActions';
 import { RootStore } from '../store';
-import { CardAddType } from '../types';
+import { CardType } from '../types';
 
 export default function AddCard() {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ export default function AddCard() {
   const [lastName, setLastName] = useState('');
   const [isComplete, setIsComplete] = useState(false);
 
-  const [card, setCard] = useState<CardAddType>();
+  const [card, setCard] = useState<CardType>();
 
   useEffect(() => {
     const getAll = () => {
@@ -49,54 +49,54 @@ export default function AddCard() {
   const raritiesState = useSelector((state: RootStore) => state.cards.rarities);
   const seriesState = useSelector((state: RootStore) => state.cards.series);
 
-  useEffect(() => {
-    const postCard = {
-      nombre: name.charAt(0).toUpperCase() + name.toLowerCase().slice(1),
-      apellido:
-        lastName.charAt(0).toUpperCase() + lastName.toLowerCase().slice(1),
-      foto: `${name.toLowerCase()}-${lastName.toLowerCase()}.jpg`,
-      id_equipos: parseInt(team),
-      id_posiciones: parseInt(position),
-      id_rarezas: parseInt(rarity),
-      id_series: serie,
-    };
+  //   useEffect(() => {
+  //     const postCard = {
+  //       nombre: name.charAt(0).toUpperCase() + name.toLowerCase().slice(1),
+  //       apellido:
+  //         lastName.charAt(0).toUpperCase() + lastName.toLowerCase().slice(1),
+  //       foto: `${name.toLowerCase()}-${lastName.toLowerCase()}.jpg`,
+  //       id_equipos: parseInt(team),
+  //       id_posiciones: parseInt(position),
+  //       id_rarezas: parseInt(rarity),
+  //       id_series: serie,
+  //     };
 
-    const {
-      nombre,
-      apellido,
-      foto,
-      id_equipos,
-      id_posiciones,
-      id_rarezas,
-      id_series,
-    } = postCard;
+  //     const {
+  //       nombre,
+  //       apellido,
+  //       foto,
+  //       id_equipos,
+  //       id_posiciones,
+  //       id_rarezas,
+  //       id_series,
+  //     } = postCard;
 
-    if (
-      nombre !== '' &&
-      apellido !== '' &&
-      foto !== '-.jpg' &&
-      !Number.isNaN(id_equipos) &&
-      !Number.isNaN(id_posiciones) &&
-      !Number.isNaN(id_rarezas) &&
-      !Number.isNaN(id_series)
-    ) {
-      setIsComplete(true);
-    } else {
-      setIsComplete(false);
-    }
+  //     if (
+  //       nombre !== '' &&
+  //       apellido !== '' &&
+  //       foto !== '-.jpg' &&
+  //       !Number.isNaN(id_equipos) &&
+  //       !Number.isNaN(id_posiciones) &&
+  //       !Number.isNaN(id_rarezas) &&
+  //       !Number.isNaN(id_series)
+  //     ) {
+  //       setIsComplete(true);
+  //     } else {
+  //       setIsComplete(false);
+  //     }
 
-    setCard(postCard);
-  }, [name, lastName, team, position, rarity, serie]);
+  //     setCard(postCard);
+  //   }, [name, lastName, team, position, rarity, serie]);
 
-  const handleClick = (event: React.MouseEvent) => {
-    if (!!card) {
-      dispatch(addCard(card));
-    }
-  };
+  //   const handleClick = (event: React.MouseEvent) => {
+  //     if (!!card) {
+  //       dispatch(addCard(card));
+  //     }
+  //   };
 
-  const handleChange = (e: any) => {
-    setSerie(e.target.value);
-  };
+  //   const handleChange = (e: any) => {
+  //     setSerie(e.target.value);
+  //   };
 
   return (
     <Box
@@ -219,7 +219,7 @@ export default function AddCard() {
             required
             sx={{ my: 1 }}
             value={serie}
-            onChange={handleChange}
+            // onChange={handleChange}
             label='Serie'
           >
             <MenuItem value={0}>Seleccionar Serie</MenuItem>
@@ -235,7 +235,7 @@ export default function AddCard() {
         </FormControl>
         {isComplete ? (
           <Button
-            onClick={handleClick}
+            // onClick={handleClick}
             variant='contained'
             size='large'
             sx={{
@@ -249,7 +249,6 @@ export default function AddCard() {
         ) : (
           <Button
             disabled
-            onClick={handleClick}
             variant='contained'
             size='large'
             sx={{

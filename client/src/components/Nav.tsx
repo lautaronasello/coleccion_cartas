@@ -22,11 +22,6 @@ export default function Nav() {
   };
 
   const cardsState = useSelector((state: RootStore) => state.cards.cards);
-
-  // const namesCards = cardsState.map((data) => {
-  //   return [`${data.nombre}`];
-  // });
-
   return (
     <Box
       sx={{
@@ -58,7 +53,7 @@ export default function Nav() {
         size='small'
         options={cardsState}
         sx={{ width: 300 }}
-        getOptionLabel={(option: CardType) => option.nombre}
+        getOptionLabel={(option: CardType) => option.cartas.nombre}
         renderInput={(params) => (
           <TextField
             onChange={handleChange}

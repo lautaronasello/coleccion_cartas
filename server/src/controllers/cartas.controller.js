@@ -101,9 +101,8 @@ const updateCardById = async (req, res) => {
   res.status(200).json('Card edit successfully');
 };
 
-const getCardById = async (req, res) => {
+const getCardByIdNumber = async (req, res) => {
   const { id } = req.params;
-
   const pool = await getConnection();
   const result = await pool
     .request()
@@ -113,7 +112,7 @@ const getCardById = async (req, res) => {
   if (result.recordset.length === 0) {
     return res.status(400).send('Forbbiden. The card is not in the colection.');
   }
-  res.status(200).send(result.recordset[0]);
+  res.status(200).json(JSON.parse(result.recordset[0].data));
 };
 
 const getCardByName = async (req, res) => {
@@ -129,14 +128,15 @@ const getCardByName = async (req, res) => {
 };
 
 const getTeams = async (req, res) => {
-  try {
-    const pool = await getConnection();
-    const result = await pool.request().query(queries.getTeams);
-    res.json(result.recordset);
-  } catch (error) {
-    res.status(500);
-    res.send(error.message);
-  }
+  console.log('locura');
+  // try {
+  //   const pool = await getConnection();
+  //   const result = await pool.request().query(queries.getTeams);
+  //   res.send(result);
+  // } catch (error) {
+  //   res.status(500);
+  //   res.send(error.message);
+  // }
 };
 
 const getSeries = async (req, res) => {
@@ -175,7 +175,7 @@ const getRarities = async (req, res) => {
 module.exports = {
   getCards,
   postCards,
-  getCardById,
+  getCardByIdNumber,
   deleteCardById,
   updateCardById,
   getCardByName,

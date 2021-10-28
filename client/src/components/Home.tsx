@@ -47,7 +47,7 @@ const Home: FC = () => {
     );
   }
 
-  if (cardSearch) {
+  if (cardSearch[0]) {
     return (
       <>
         <ArrowBackIosNewIcon
@@ -79,19 +79,18 @@ const Home: FC = () => {
           >
             <Box>
               <Card
-                key={cardSearch.id}
-                nombre={cardSearch.nombre}
-                apellido={cardSearch.apellido}
-                equipo={cardSearch.equipo}
-                posicion={cardSearch.posicion}
-                rareza={cardSearch.rareza}
-                serie={cardSearch.serie}
-                foto={cardSearch.foto}
-                id={cardSearch.id}
+                key={cardSearch[0].cartas.id}
+                nombre={cardSearch[0].cartas.nombre}
+                equipo={cardSearch[0].equipos.equipo}
+                posicion={cardSearch[0].posiciones.posicion}
+                rareza={cardSearch[0].rarezas.rareza}
+                serie={cardSearch[0].series.serie}
+                foto={cardSearch[0].cartas.foto}
+                id={cardSearch[0].cartas.id}
               />
-              <DeleteCard cardId={cardSearch.id} />
+              {/*<DeleteCard cardId={cardSearch.id} />
+            <EditCard card={cardSearch && cardSearch} /> */}
             </Box>
-            <EditCard card={cardSearch && cardSearch} />
           </Grid>
         </Box>
       </>
@@ -113,15 +112,14 @@ const Home: FC = () => {
           cardsState.cards.map((data) => {
             return (
               <Card
-                key={data.id}
-                nombre={data.nombre}
-                apellido={data.apellido}
-                equipo={data.equipo}
-                posicion={data.posicion}
-                rareza={data.rareza}
-                serie={data.serie}
-                foto={data.foto}
-                id={data.id}
+                key={data.cartas.id}
+                nombre={data.cartas.nombre}
+                equipo={data.equipos.equipo}
+                posicion={data.posiciones.posicion}
+                rareza={data.rarezas.rareza}
+                serie={data.series.serie}
+                foto={data.cartas.foto}
+                id={data.cartas.id}
               />
             );
           })}

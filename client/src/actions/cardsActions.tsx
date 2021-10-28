@@ -58,8 +58,30 @@ export const GetCardByName =
         type: CARD_SEARCH_LOADING,
       });
 
-      const res = await axios.get<SearchType[]>(
+      const res = await axios.get<CardType[]>(
         `${process.env.REACT_APP_API_URL}/cards/${cardName}`
+      );
+
+      dispatch({
+        type: CARD_SEARCH_SUCCESS,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: CARD_SEARCH_FAIL,
+      });
+    }
+  };
+
+export const GetCardById =
+  (id: number) => async (dispatch: Dispatch<CardDispatchTypes>) => {
+    try {
+      dispatch({
+        type: CARD_SEARCH_LOADING,
+      });
+
+      const res = await axios.get<CardType[]>(
+        `${process.env.REACT_APP_API_URL}/${id}`
       );
 
       dispatch({

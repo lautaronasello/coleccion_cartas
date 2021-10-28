@@ -22,7 +22,7 @@ export const CARD_DELETE_SUCCESS = 'CARD_DELETE_SUCCESS';
 export interface CardInterface {
   id: number;
   nombre: string;
-  fot: string;
+  foto: string;
 }
 
 export interface RarityInterface {
@@ -42,7 +42,7 @@ export interface TeamInterface {
 
 export interface SeriesInterface {
   id: number;
-  series: string;
+  serie: string;
 }
 export type CardType = {
   cartas: CardInterface;
@@ -89,7 +89,7 @@ export interface CardSearchFail {
 
 export interface CardSearchSuccess {
   type: typeof CARD_SEARCH_SUCCESS;
-  payload: SearchType[];
+  payload: CardType[];
 }
 
 export interface SelectsLoading {

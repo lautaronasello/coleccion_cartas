@@ -11,76 +11,76 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { editCardAction } from '../actions/cardsActions';
 import { RootStore } from '../store';
-import { CardEditType, CardType } from '../types';
+import { CardType } from '../types';
 
 interface card {
   card: CardType;
 }
 
 export default function EditCard({ card }: card) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const [name, setName] = useState(card.nombre);
-  const [lastName, setLastName] = useState(card.apellido);
-  const [team, setTeam] = useState(card.equipo);
-  const [position, setPosition] = useState(card.posicion);
-  const [rarity, setRarity] = useState(card.rareza);
-  const [serie, setSerie] = useState(card.serie);
-  const [editCard, setEditCard] = useState<CardEditType>();
+  // const [name, setName] = useState(card.nombre);
+  // const [lastName, setLastName] = useState(card.apellido);
+  // const [team, setTeam] = useState(card.equipo);
+  // const [position, setPosition] = useState(card.posicion);
+  // const [rarity, setRarity] = useState(card.rareza);
+  // const [serie, setSerie] = useState(card.serie);
+  // const [editCard, setEditCard] = useState<CardEditType>();
 
-  const search = useSelector((state: RootStore) => state.cards.search);
-  const teamsState = useSelector((state: RootStore) => state.cards.teams);
-  const positionsState = useSelector(
-    (state: RootStore) => state.cards.positions
-  );
-  const raritiesState = useSelector((state: RootStore) => state.cards.rarities);
-  const seriesState = useSelector((state: RootStore) => state.cards.series);
+  // const search = useSelector((state: RootStore) => state.cards.search);
+  // const teamsState = useSelector((state: RootStore) => state.cards.teams);
+  // const positionsState = useSelector(
+  //   (state: RootStore) => state.cards.positions
+  // );
+  // const raritiesState = useSelector((state: RootStore) => state.cards.rarities);
+  // const seriesState = useSelector((state: RootStore) => state.cards.series);
 
-  useEffect(() => {
-    const putCard = {
-      id: card.id,
-      nombre: name.charAt(0).toUpperCase() + name.toLowerCase().slice(1),
-      apellido:
-        lastName.charAt(0).toUpperCase() + lastName.toLowerCase().slice(1),
-      foto: `${name.toLowerCase()}-${lastName.toLowerCase()}.jpg`,
-      id_equipos: parseInt(team),
-      id_posiciones: parseInt(position),
-      id_rarezas: parseInt(rarity),
-      id_series: parseInt(serie),
-    };
+  // useEffect(() => {
+  //   const putCard = {
+  //     id: card.id,
+  //     nombre: name.charAt(0).toUpperCase() + name.toLowerCase().slice(1),
+  //     apellido:
+  //       lastName.charAt(0).toUpperCase() + lastName.toLowerCase().slice(1),
+  //     foto: `${name.toLowerCase()}-${lastName.toLowerCase()}.jpg`,
+  //     id_equipos: parseInt(team),
+  //     id_posiciones: parseInt(position),
+  //     id_rarezas: parseInt(rarity),
+  //     id_series: parseInt(serie),
+  //   };
 
-    setEditCard(putCard);
-  }, [name, lastName, team, position, rarity, serie, card]);
+  //   setEditCard(putCard);
+  // }, [name, lastName, team, position, rarity, serie, card]);
 
-  useEffect(() => {
-    for (let i = 0; i < teamsState.length; i++) {
-      if (card.equipo === teamsState[i].equipo) {
-        setTeam(`${teamsState[i].id}`);
-      }
-    }
-    for (let i = 0; i < positionsState.length; i++) {
-      if (card.posicion === positionsState[i].posicion) {
-        setPosition(`${positionsState[i].id}`);
-      }
-    }
-    for (let i = 0; i < raritiesState.length; i++) {
-      if (card.rareza === raritiesState[i].rareza) {
-        setRarity(`${raritiesState[i].id}`);
-      }
-    }
-    for (let i = 0; i < seriesState.length; i++) {
-      if (card.serie === seriesState[i].serie) {
-        setSerie(`${seriesState[i].id}`);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search]);
+  // useEffect(() => {
+  //   for (let i = 0; i < teamsState.length; i++) {
+  //     if (card.equipo === teamsState[i].equipo) {
+  //       setTeam(`${teamsState[i].id}`);
+  //     }
+  //   }
+  //   for (let i = 0; i < positionsState.length; i++) {
+  //     if (card.posicion === positionsState[i].posicion) {
+  //       setPosition(`${positionsState[i].id}`);
+  //     }
+  //   }
+  //   for (let i = 0; i < raritiesState.length; i++) {
+  //     if (card.rareza === raritiesState[i].rareza) {
+  //       setRarity(`${raritiesState[i].id}`);
+  //     }
+  //   }
+  //   for (let i = 0; i < seriesState.length; i++) {
+  //     if (card.serie === seriesState[i].serie) {
+  //       setSerie(`${seriesState[i].id}`);
+  //     }
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [search]);
 
-  const handleClick = (event: React.MouseEvent) => {
-    if (!!editCard) {
-      dispatch(editCardAction(editCard));
-    }
-  };
+  // const handleClick = (event: React.MouseEvent) => {
+  //   if (!!editCard) {
+  //     dispatch(editCardAction(editCard));
+  //   }
+  // };
 
   return (
     <Box
@@ -96,7 +96,7 @@ export default function EditCard({ card }: card) {
       }}
     >
       <Box sx={{ fontStyle: 'thin', fontSize: '2rem' }}>Editar producto</Box>
-      <FormControl>
+      {/* <FormControl>
         <TextField
           sx={{ my: '1rem' }}
           placeholder={card.nombre}
@@ -194,7 +194,7 @@ export default function EditCard({ card }: card) {
         }}
       >
         Editar
-      </Button>
+      </Button> */}
     </Box>
   );
 }
