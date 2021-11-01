@@ -24,7 +24,6 @@ import {
   PositionInterface,
   RarityInterface,
   SeriesInterface,
-  SearchType,
 } from '../types';
 
 export interface stateInterface {

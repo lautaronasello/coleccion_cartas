@@ -3,7 +3,6 @@ import {
   MenuItem,
   Select,
   TextField,
-  SelectChangeEvent,
   Button,
 } from '@mui/material';
 import { Box } from '@mui/system';
@@ -11,76 +10,51 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { editCardAction } from '../actions/cardsActions';
 import { RootStore } from '../store';
-import { CardType } from '../types';
+import { CardEditType, CardType } from '../types';
 
 interface card {
   card: CardType;
 }
 
 export default function EditCard({ card }: card) {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // const [name, setName] = useState(card.nombre);
-  // const [lastName, setLastName] = useState(card.apellido);
-  // const [team, setTeam] = useState(card.equipo);
-  // const [position, setPosition] = useState(card.posicion);
-  // const [rarity, setRarity] = useState(card.rareza);
-  // const [serie, setSerie] = useState(card.serie);
-  // const [editCard, setEditCard] = useState<CardEditType>();
+  const [name, setName] = useState(card.cartas.nombre);
+  const [lastName, setLastName] = useState(card.cartas.apellido);
+  const [team, setTeam] = useState<number>(card.equipos.id);
+  const [position, setPosition] = useState(card.posiciones.id);
+  const [rarity, setRarity] = useState(card.rarezas.id);
+  const [serie, setSerie] = useState(card.series.id);
+  const [editCard, setEditCard] = useState<CardEditType>();
 
-  // const search = useSelector((state: RootStore) => state.cards.search);
-  // const teamsState = useSelector((state: RootStore) => state.cards.teams);
-  // const positionsState = useSelector(
-  //   (state: RootStore) => state.cards.positions
-  // );
-  // const raritiesState = useSelector((state: RootStore) => state.cards.rarities);
-  // const seriesState = useSelector((state: RootStore) => state.cards.series);
+  const teamsState = useSelector((state: RootStore) => state.cards.teams);
+  const positionsState = useSelector(
+    (state: RootStore) => state.cards.positions
+  );
+  const raritiesState = useSelector((state: RootStore) => state.cards.rarities);
+  const seriesState = useSelector((state: RootStore) => state.cards.series);
 
-  // useEffect(() => {
-  //   const putCard = {
-  //     id: card.id,
-  //     nombre: name.charAt(0).toUpperCase() + name.toLowerCase().slice(1),
-  //     apellido:
-  //       lastName.charAt(0).toUpperCase() + lastName.toLowerCase().slice(1),
-  //     foto: `${name.toLowerCase()}-${lastName.toLowerCase()}.jpg`,
-  //     id_equipos: parseInt(team),
-  //     id_posiciones: parseInt(position),
-  //     id_rarezas: parseInt(rarity),
-  //     id_series: parseInt(serie),
-  //   };
+  useEffect(() => {
+    const putCard = {
+      id: card.cartas.id,
+      nombre: name.charAt(0).toUpperCase() + name.toLowerCase().slice(1),
+      apellido:
+        lastName.charAt(0).toUpperCase() + lastName.toLowerCase().slice(1),
+      foto: `${name.toLowerCase()}-${lastName.toLowerCase()}.jpg`,
+      id_equipos: team,
+      id_posiciones: position,
+      id_rarezas: rarity,
+      id_series: serie,
+    };
 
-  //   setEditCard(putCard);
-  // }, [name, lastName, team, position, rarity, serie, card]);
+    setEditCard(putCard);
+  }, [name, lastName, team, position, rarity, serie, card]);
 
-  // useEffect(() => {
-  //   for (let i = 0; i < teamsState.length; i++) {
-  //     if (card.equipo === teamsState[i].equipo) {
-  //       setTeam(`${teamsState[i].id}`);
-  //     }
-  //   }
-  //   for (let i = 0; i < positionsState.length; i++) {
-  //     if (card.posicion === positionsState[i].posicion) {
-  //       setPosition(`${positionsState[i].id}`);
-  //     }
-  //   }
-  //   for (let i = 0; i < raritiesState.length; i++) {
-  //     if (card.rareza === raritiesState[i].rareza) {
-  //       setRarity(`${raritiesState[i].id}`);
-  //     }
-  //   }
-  //   for (let i = 0; i < seriesState.length; i++) {
-  //     if (card.serie === seriesState[i].serie) {
-  //       setSerie(`${seriesState[i].id}`);
-  //     }
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [search]);
-
-  // const handleClick = (event: React.MouseEvent) => {
-  //   if (!!editCard) {
-  //     dispatch(editCardAction(editCard));
-  //   }
-  // };
+  const handleClick = (event: React.MouseEvent) => {
+    if (!!editCard) {
+      dispatch(editCardAction(editCard));
+    }
+  };
 
   return (
     <Box
@@ -96,17 +70,17 @@ export default function EditCard({ card }: card) {
       }}
     >
       <Box sx={{ fontStyle: 'thin', fontSize: '2rem' }}>Editar producto</Box>
-      {/* <FormControl>
+      <FormControl>
         <TextField
           sx={{ my: '1rem' }}
-          placeholder={card.nombre}
+          placeholder={card.cartas.nombre}
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setName(e.target.value);
           }}
         />
         <TextField
           sx={{ mb: '1rem' }}
-          placeholder={card.apellido}
+          placeholder={card.cartas.apellido}
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setLastName(e.target.value);
           }}
@@ -115,11 +89,10 @@ export default function EditCard({ card }: card) {
       <FormControl sx={{ mb: '1rem' }}>
         <Select
           value={team}
-          onChange={(e: SelectChangeEvent) => {
+          onChange={(e: any) => {
             setTeam(e.target.value);
           }}
         >
-          <MenuItem value={team}>{card.equipo}</MenuItem>
           {teamsState &&
             teamsState.map((data) => {
               return (
@@ -133,11 +106,10 @@ export default function EditCard({ card }: card) {
       <FormControl sx={{ mb: '1rem' }}>
         <Select
           value={position}
-          onChange={(e: SelectChangeEvent) => {
+          onChange={(e: any) => {
             setPosition(e.target.value);
           }}
         >
-          <MenuItem value={position}>{card.posicion}</MenuItem>
           {positionsState &&
             positionsState.map((data) => {
               return (
@@ -151,7 +123,7 @@ export default function EditCard({ card }: card) {
       <FormControl sx={{ mb: '1rem' }}>
         <Select
           value={rarity}
-          onChange={(e: SelectChangeEvent) => {
+          onChange={(e: any) => {
             setRarity(e.target.value);
           }}
         >
@@ -168,11 +140,10 @@ export default function EditCard({ card }: card) {
       <FormControl sx={{ mb: '1rem' }}>
         <Select
           value={serie}
-          onChange={(e: SelectChangeEvent) => {
+          onChange={(e: any) => {
             setSerie(e.target.value);
           }}
         >
-          <MenuItem value={serie}>{card.serie}</MenuItem>
           {seriesState &&
             seriesState.map((data) => {
               return (
@@ -194,7 +165,7 @@ export default function EditCard({ card }: card) {
         }}
       >
         Editar
-      </Button> */}
+      </Button>
     </Box>
   );
 }

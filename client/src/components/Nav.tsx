@@ -53,7 +53,9 @@ export default function Nav() {
         size='small'
         options={cardsState}
         sx={{ width: 300 }}
-        getOptionLabel={(option: CardType) => option.cartas.nombre}
+        getOptionLabel={(option: CardType) =>
+          `${option.cartas.nombre} ${option.cartas.apellido}`
+        }
         renderInput={(params) => (
           <TextField
             onChange={handleChange}

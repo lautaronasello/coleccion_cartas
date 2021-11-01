@@ -7,6 +7,7 @@ import { RootStore } from '../store';
 interface DataInterface {
   id: number;
   nombre: string;
+  apellido: string;
   equipo: string;
   foto: string;
   posicion: string;
@@ -17,6 +18,7 @@ interface DataInterface {
 export default function Card({
   id,
   nombre,
+  apellido,
   posicion,
   foto,
   equipo,
@@ -56,7 +58,7 @@ export default function Card({
       <Box
         component='img'
         sx={{ height: '12rem', width: '15rem', border: 1, mt: '1rem' }}
-        alt={`${nombre} - ${posicion}`}
+        alt={`${nombre} ${apellido}- ${posicion}`}
         src={foto}
       />
       <Box
@@ -72,7 +74,7 @@ export default function Card({
           height: '3rem',
         }}
       >
-        {nombre} - {posicion}
+        {nombre} {apellido} - {posicion}
       </Box>
       <Box
         sx={{

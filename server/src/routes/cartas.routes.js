@@ -7,7 +7,7 @@ const {
   deleteCardById,
   updateCardById,
   getCardByName,
-  getTeams,
+  getAllTeams,
   getRarities,
   getPositions,
   getSeries,
@@ -26,12 +26,12 @@ routerCartas.delete('/cards/:id', deleteCardById);
 
 routerCartas.put('/cards/:id', updateCardById);
 
-routerCartas.get('/cache', getTeams);
+routerCartas.get('/teams/all', getAllTeams);
 
-routerCartas.get('/rarities', getRarities);
+routerCartas.get('/rarities/all', getRarities);
 
-routerCartas.get('/positions', getPositions);
+routerCartas.get('/positions/all', getPositions);
 
-routerCartas.get('/series', getSeries);
+routerCartas.get('/series/all', getSeries);
 
 module.exports = routerCartas;

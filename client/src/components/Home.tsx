@@ -81,6 +81,7 @@ const Home: FC = () => {
               <Card
                 key={cardSearch[0].cartas.id}
                 nombre={cardSearch[0].cartas.nombre}
+                apellido={cardSearch[0].cartas.apellido}
                 equipo={cardSearch[0].equipos.equipo}
                 posicion={cardSearch[0].posiciones.posicion}
                 rareza={cardSearch[0].rarezas.rareza}
@@ -88,9 +89,9 @@ const Home: FC = () => {
                 foto={cardSearch[0].cartas.foto}
                 id={cardSearch[0].cartas.id}
               />
-              {/*<DeleteCard cardId={cardSearch.id} />
-            <EditCard card={cardSearch && cardSearch} /> */}
+              <DeleteCard cardId={cardSearch[0].cartas.id} />
             </Box>
+            <EditCard card={cardSearch[0] && cardSearch[0]} />
           </Grid>
         </Box>
       </>
@@ -114,6 +115,7 @@ const Home: FC = () => {
               <Card
                 key={data.cartas.id}
                 nombre={data.cartas.nombre}
+                apellido={data.cartas.apellido}
                 equipo={data.equipos.equipo}
                 posicion={data.posiciones.posicion}
                 rareza={data.rarezas.rareza}

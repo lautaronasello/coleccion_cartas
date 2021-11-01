@@ -127,16 +127,15 @@ const getCardByName = async (req, res) => {
   res.status(200).json(JSON.parse(result.recordset[0].data));
 };
 
-const getTeams = async (req, res) => {
-  console.log('locura');
-  // try {
-  //   const pool = await getConnection();
-  //   const result = await pool.request().query(queries.getTeams);
-  //   res.send(result);
-  // } catch (error) {
-  //   res.status(500);
-  //   res.send(error.message);
-  // }
+const getAllTeams = async (req, res) => {
+  try {
+    const pool = await getConnection();
+    const result = await pool.request().query(queries.getTeams);
+    res.send(result.recordset);
+  } catch (error) {
+    res.status(500);
+    res.send(error.message);
+  }
 };
 
 const getSeries = async (req, res) => {
@@ -179,7 +178,7 @@ module.exports = {
   deleteCardById,
   updateCardById,
   getCardByName,
-  getTeams,
+  getAllTeams,
   getPositions,
   getRarities,
   getSeries,

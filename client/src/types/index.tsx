@@ -22,6 +22,7 @@ export const CARD_DELETE_SUCCESS = 'CARD_DELETE_SUCCESS';
 export interface CardInterface {
   id: number;
   nombre: string;
+  apellido: string;
   foto: string;
 }
 
@@ -53,7 +54,7 @@ export type CardType = {
 };
 
 export type CardEditType = {
-  id: number;
+  id?: number;
   nombre: string;
   apellido: string;
   foto: string;

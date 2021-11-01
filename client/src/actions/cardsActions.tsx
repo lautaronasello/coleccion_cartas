@@ -1,7 +1,6 @@
 import {
   CardDispatchTypes,
   CardType,
-  SearchType,
   CARD_FAIL,
   CARD_LOADING,
   CARD_SEARCH_LOADING,
@@ -102,7 +101,7 @@ export const GetTeams = () => async (dispatch: Dispatch<CardDispatchTypes>) => {
     });
 
     const res = await axios.get<TeamInterface[]>(
-      `${process.env.REACT_APP_API_URL}/teams`
+      `${process.env.REACT_APP_API_URL}/teams/all`
     );
 
     dispatch({
@@ -124,7 +123,7 @@ export const GetPositions =
       });
 
       const res = await axios.get<PositionInterface[]>(
-        `${process.env.REACT_APP_API_URL}/positions`
+        `${process.env.REACT_APP_API_URL}/positions/all`
       );
 
       dispatch({
@@ -146,7 +145,7 @@ export const GetRarities =
       });
 
       const res = await axios.get<RarityInterface[]>(
-        `${process.env.REACT_APP_API_URL}/rarities`
+        `${process.env.REACT_APP_API_URL}/rarities/all`
       );
 
       dispatch({
@@ -168,7 +167,7 @@ export const GetSeries =
       });
 
       const res = await axios.get<SeriesInterface[]>(
-        `${process.env.REACT_APP_API_URL}/series`
+        `${process.env.REACT_APP_API_URL}/series/all`
       );
 
       dispatch({
@@ -183,7 +182,7 @@ export const GetSeries =
   };
 
 export const addCard =
-  (card: CardType) => async (dispatch: Dispatch<CardDispatchTypes>) => {
+  (card: CardEditType) => async (dispatch: Dispatch<CardDispatchTypes>) => {
     try {
       dispatch({
         type: CARD_ADD_LOADING,

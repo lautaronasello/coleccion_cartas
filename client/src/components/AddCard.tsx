@@ -3,7 +3,6 @@ import {
   FormControl,
   MenuItem,
   Select,
-  SelectChangeEvent,
   TextField,
 } from '@mui/material';
 import { Box } from '@mui/system';
@@ -17,20 +16,20 @@ import {
   addCard,
 } from '../actions/cardsActions';
 import { RootStore } from '../store';
-import { CardType } from '../types';
+import { CardEditType } from '../types';
 
 export default function AddCard() {
   const dispatch = useDispatch();
 
-  const [team, setTeam] = useState('Seleccionar Equipo');
-  const [position, setPosition] = useState('Seleccionar Posicion');
-  const [rarity, setRarity] = useState('Seleccionar Rareza');
+  const [team, setTeam] = useState<number>(0);
+  const [position, setPosition] = useState<number>(0);
+  const [rarity, setRarity] = useState<number>(0);
   const [serie, setSerie] = useState<number>(0);
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [isComplete, setIsComplete] = useState(false);
 
-  const [card, setCard] = useState<CardType>();
+  const [card, setCard] = useState<CardEditType>();
 
   useEffect(() => {
     const getAll = () => {
@@ -49,54 +48,54 @@ export default function AddCard() {
   const raritiesState = useSelector((state: RootStore) => state.cards.rarities);
   const seriesState = useSelector((state: RootStore) => state.cards.series);
 
-  //   useEffect(() => {
-  //     const postCard = {
-  //       nombre: name.charAt(0).toUpperCase() + name.toLowerCase().slice(1),
-  //       apellido:
-  //         lastName.charAt(0).toUpperCase() + lastName.toLowerCase().slice(1),
-  //       foto: `${name.toLowerCase()}-${lastName.toLowerCase()}.jpg`,
-  //       id_equipos: parseInt(team),
-  //       id_posiciones: parseInt(position),
-  //       id_rarezas: parseInt(rarity),
-  //       id_series: serie,
-  //     };
+  useEffect(() => {
+    const postCard = {
+      nombre: name.charAt(0).toUpperCase() + name.toLowerCase().slice(1),
+      apellido:
+        lastName.charAt(0).toUpperCase() + lastName.toLowerCase().slice(1),
+      foto: `${name.toLowerCase()}-${lastName.toLowerCase()}.jpg`,
+      id_equipos: team,
+      id_posiciones: position,
+      id_rarezas: rarity,
+      id_series: serie,
+    };
 
-  //     const {
-  //       nombre,
-  //       apellido,
-  //       foto,
-  //       id_equipos,
-  //       id_posiciones,
-  //       id_rarezas,
-  //       id_series,
-  //     } = postCard;
+    const {
+      nombre,
+      apellido,
+      foto,
+      id_equipos,
+      id_posiciones,
+      id_rarezas,
+      id_series,
+    } = postCard;
 
-  //     if (
-  //       nombre !== '' &&
-  //       apellido !== '' &&
-  //       foto !== '-.jpg' &&
-  //       !Number.isNaN(id_equipos) &&
-  //       !Number.isNaN(id_posiciones) &&
-  //       !Number.isNaN(id_rarezas) &&
-  //       !Number.isNaN(id_series)
-  //     ) {
-  //       setIsComplete(true);
-  //     } else {
-  //       setIsComplete(false);
-  //     }
+    if (
+      nombre !== '' &&
+      apellido !== '' &&
+      foto !== '-.jpg' &&
+      id_equipos !== 0 &&
+      id_posiciones !== 0 &&
+      id_rarezas !== 0 &&
+      id_series !== 0
+    ) {
+      setIsComplete(true);
+    } else {
+      setIsComplete(false);
+    }
 
-  //     setCard(postCard);
-  //   }, [name, lastName, team, position, rarity, serie]);
+    setCard(postCard);
+  }, [name, lastName, team, position, rarity, serie]);
 
-  //   const handleClick = (event: React.MouseEvent) => {
-  //     if (!!card) {
-  //       dispatch(addCard(card));
-  //     }
-  //   };
+  const handleClick = (event: React.MouseEvent) => {
+    if (!!card) {
+      dispatch(addCard(card));
+    }
+  };
 
-  //   const handleChange = (e: any) => {
-  //     setSerie(e.target.value);
-  //   };
+  const handleChange = (e: any) => {
+    setSerie(e.target.value);
+  };
 
   return (
     <Box
@@ -154,12 +153,12 @@ export default function AddCard() {
             required
             sx={{ my: 1 }}
             value={team}
-            onChange={(e: SelectChangeEvent) => {
+            onChange={(e: any) => {
               setTeam(e.target.value);
             }}
             label='Equipo'
           >
-            <MenuItem value='Seleccionar Equipo'>Selecciona Equipo</MenuItem>
+            <MenuItem value={0}>Selecciona Equipo</MenuItem>
             {teamsState &&
               teamsState.map((data) => {
                 return (
@@ -175,14 +174,12 @@ export default function AddCard() {
             required
             sx={{ my: 1 }}
             value={position}
-            onChange={(e: SelectChangeEvent) => {
+            onChange={(e: any) => {
               setPosition(e.target.value);
             }}
             label='Posición'
           >
-            <MenuItem value='Seleccionar Posicion'>
-              Seleccionar posición
-            </MenuItem>
+            <MenuItem value={0}>Seleccionar posición</MenuItem>
             {positionsState &&
               positionsState.map((data) => {
                 return (
@@ -199,11 +196,11 @@ export default function AddCard() {
             sx={{ my: 1 }}
             label='Seleccionar Rareza'
             value={rarity}
-            onChange={(e: SelectChangeEvent) => {
+            onChange={(e: any) => {
               setRarity(e.target.value);
             }}
           >
-            <MenuItem value='Seleccionar Rareza'>Seleccionar Rareza</MenuItem>
+            <MenuItem value={0}>Seleccionar Rareza</MenuItem>
             {raritiesState &&
               raritiesState.map((data) => {
                 return (
@@ -219,7 +216,7 @@ export default function AddCard() {
             required
             sx={{ my: 1 }}
             value={serie}
-            // onChange={handleChange}
+            onChange={handleChange}
             label='Serie'
           >
             <MenuItem value={0}>Seleccionar Serie</MenuItem>
@@ -235,7 +232,7 @@ export default function AddCard() {
         </FormControl>
         {isComplete ? (
           <Button
-            // onClick={handleClick}
+            onClick={handleClick}
             variant='contained'
             size='large'
             sx={{
