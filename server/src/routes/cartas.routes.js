@@ -7,10 +7,11 @@ const {
   deleteCardById,
   updateCardById,
   getCardByName,
-  getTeams,
+  getAllTeams,
   getRarities,
   getPositions,
   getSeries,
+  getCardByIdNumber,
 } = require('../controllers/cartas.controller');
 
 routerCartas.get('/cards', getCards);
@@ -19,18 +20,18 @@ routerCartas.get('/cards/:name', getCardByName);
 
 routerCartas.post('/cards', postCards);
 
-routerCartas.get('/cards/:id', getCardById);
+routerCartas.get('/:id', getCardByIdNumber);
 
 routerCartas.delete('/cards/:id', deleteCardById);
 
 routerCartas.put('/cards/:id', updateCardById);
 
-routerCartas.get('/teams', getTeams);
+routerCartas.get('/teams/all', getAllTeams);
 
-routerCartas.get('/rarities', getRarities);
+routerCartas.get('/rarities/all', getRarities);
 
-routerCartas.get('/positions', getPositions);
+routerCartas.get('/positions/all', getPositions);
 
-routerCartas.get('/series', getSeries);
+routerCartas.get('/series/all', getSeries);
 
 module.exports = routerCartas;

@@ -1,7 +1,6 @@
 import {
   CardDispatchTypes,
   CardType,
-  SearchType,
   CARD_FAIL,
   CARD_LOADING,
   CARD_SEARCH_LOADING,
@@ -11,18 +10,17 @@ import {
   SELECTS_LOADING,
   TEAM_SUCCESS,
   SELECTS_FAIL,
-  TeamsType,
+  TeamInterface,
   POSITION_SUCCESS,
   RARITIES_SUCCESS,
-  PositionsType,
-  RaritiesType,
-  SeriesType,
+  PositionInterface,
+  RarityInterface,
+  SeriesInterface,
   SERIES_SUCCESS,
   CARD_ADD_LOADING,
   CARD_ADD_SUCCESS,
   CARD_ADD_FAIL,
   CARD_EDIT_SUCCESS,
-  CardAddType,
   CardEditType,
   CARD_DELETE_START,
   CARD_DELETE_SUCCESS,
@@ -59,13 +57,35 @@ export const GetCardByName =
         type: CARD_SEARCH_LOADING,
       });
 
-      const res = await axios.get<SearchType[]>(
+      const res = await axios.get<CardType[]>(
         `${process.env.REACT_APP_API_URL}/cards/${cardName}`
       );
 
       dispatch({
         type: CARD_SEARCH_SUCCESS,
-        payload: res.data[0],
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: CARD_SEARCH_FAIL,
+      });
+    }
+  };
+
+export const GetCardById =
+  (id: number) => async (dispatch: Dispatch<CardDispatchTypes>) => {
+    try {
+      dispatch({
+        type: CARD_SEARCH_LOADING,
+      });
+
+      const res = await axios.get<CardType[]>(
+        `${process.env.REACT_APP_API_URL}/${id}`
+      );
+
+      dispatch({
+        type: CARD_SEARCH_SUCCESS,
+        payload: res.data,
       });
     } catch (err) {
       dispatch({
@@ -80,8 +100,8 @@ export const GetTeams = () => async (dispatch: Dispatch<CardDispatchTypes>) => {
       type: SELECTS_LOADING,
     });
 
-    const res = await axios.get<TeamsType[]>(
-      `${process.env.REACT_APP_API_URL}/teams`
+    const res = await axios.get<TeamInterface[]>(
+      `${process.env.REACT_APP_API_URL}/teams/all`
     );
 
     dispatch({
@@ -102,8 +122,8 @@ export const GetPositions =
         type: SELECTS_LOADING,
       });
 
-      const res = await axios.get<PositionsType[]>(
-        `${process.env.REACT_APP_API_URL}/positions`
+      const res = await axios.get<PositionInterface[]>(
+        `${process.env.REACT_APP_API_URL}/positions/all`
       );
 
       dispatch({
@@ -124,8 +144,8 @@ export const GetRarities =
         type: SELECTS_LOADING,
       });
 
-      const res = await axios.get<RaritiesType[]>(
-        `${process.env.REACT_APP_API_URL}/rarities`
+      const res = await axios.get<RarityInterface[]>(
+        `${process.env.REACT_APP_API_URL}/rarities/all`
       );
 
       dispatch({
@@ -146,8 +166,8 @@ export const GetSeries =
         type: SELECTS_LOADING,
       });
 
-      const res = await axios.get<SeriesType[]>(
-        `${process.env.REACT_APP_API_URL}/series`
+      const res = await axios.get<SeriesInterface[]>(
+        `${process.env.REACT_APP_API_URL}/series/all`
       );
 
       dispatch({
@@ -162,7 +182,7 @@ export const GetSeries =
   };
 
 export const addCard =
-  (card: CardAddType) => async (dispatch: Dispatch<CardDispatchTypes>) => {
+  (card: CardEditType) => async (dispatch: Dispatch<CardDispatchTypes>) => {
     try {
       dispatch({
         type: CARD_ADD_LOADING,
@@ -177,8 +197,6 @@ export const addCard =
         type: CARD_ADD_SUCCESS,
         payload: res.data,
       });
-
-      window.location.pathname = '/';
     } catch (error: any) {
       dispatch({
         type: CARD_ADD_FAIL,

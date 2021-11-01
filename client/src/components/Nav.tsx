@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetCardByName } from '../actions/cardsActions';
 import { Link } from 'react-router-dom';
-// import { RootStore } from '../store';
+import { CardType } from '../types';
+import { RootStore } from '../store';
 
 export default function Nav() {
   const dispatch = useDispatch();
@@ -20,12 +21,7 @@ export default function Nav() {
     dispatch(GetCardByName(cardNameSearch));
   };
 
-  // const cardsState = useSelector((state: RootStore) => state.cards.cards);
-
-  // const namesCards = cardsState.map((data) => {
-  //   return [`${data.nombre}`];
-  // });
-
+  const cardsState = useSelector((state: RootStore) => state.cards.cards);
   return (
     <Box
       sx={{
@@ -55,8 +51,11 @@ export default function Nav() {
         disablePortal
         id='cards-autocomplete'
         size='small'
-        options={namesCards}
+        options={cardsState}
         sx={{ width: 300 }}
+        getOptionLabel={(option: CardType) =>
+          `${option.cartas.nombre} ${option.cartas.apellido}`
+        }
         renderInput={(params) => (
           <TextField
             onChange={handleChange}
@@ -82,12 +81,3 @@ export default function Nav() {
     </Box>
   );
 }
-
-const namesCards = [
-  { label: 'Salvador' },
-  { label: 'Freddie' },
-  { label: 'Manny' },
-  { label: 'Fernando' },
-  { label: 'tatis' },
-  { label: 'DJ' },
-];

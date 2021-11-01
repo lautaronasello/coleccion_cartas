@@ -3,7 +3,6 @@ import {
   MenuItem,
   Select,
   TextField,
-  SelectChangeEvent,
   Button,
 } from '@mui/material';
 import { Box } from '@mui/system';
@@ -11,7 +10,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { editCardAction } from '../actions/cardsActions';
 import { RootStore } from '../store';
-import { CardType } from '../types';
+import { CardEditType, CardType } from '../types';
 
 interface card {
   card: CardType;
@@ -20,15 +19,14 @@ interface card {
 export default function EditCard({ card }: card) {
   const dispatch = useDispatch();
 
-  const [name, setName] = useState(card.nombre);
-  const [lastName, setLastName] = useState(card.apellido);
-  const [team, setTeam] = useState<any>(card.equipo);
-  const [position, setPosition] = useState<any>(card.posicion);
-  const [rarity, setRarity] = useState<any>(card.rareza);
-  const [serie, setSerie] = useState<any>(card.serie);
-  const [editCard, setEditCard] = useState<any>();
+  const [name, setName] = useState(card.cartas.nombre);
+  const [lastName, setLastName] = useState(card.cartas.apellido);
+  const [team, setTeam] = useState<number>(card.equipos.id);
+  const [position, setPosition] = useState(card.posiciones.id);
+  const [rarity, setRarity] = useState(card.rarezas.id);
+  const [serie, setSerie] = useState(card.series.id);
+  const [editCard, setEditCard] = useState<CardEditType>();
 
-  const search = useSelector((state: RootStore) => state.cards.search);
   const teamsState = useSelector((state: RootStore) => state.cards.teams);
   const positionsState = useSelector(
     (state: RootStore) => state.cards.positions
@@ -36,34 +34,12 @@ export default function EditCard({ card }: card) {
   const raritiesState = useSelector((state: RootStore) => state.cards.rarities);
   const seriesState = useSelector((state: RootStore) => state.cards.series);
 
-  const handleChangeName = (event: ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
-  const handleChangeLastName = (event: ChangeEvent<HTMLInputElement>) => {
-    setLastName(event.target.value);
-  };
-
-  const handleChangeTeam = (event: SelectChangeEvent) => {
-    setTeam(event.target.value);
-  };
-
-  const handleChangePosition = (event: SelectChangeEvent) => {
-    setPosition(event.target.value);
-  };
-
-  const handleChangeRarity = (event: SelectChangeEvent) => {
-    setRarity(event.target.value);
-  };
-
-  const handleChangeSerie = (event: SelectChangeEvent) => {
-    setSerie(event.target.value);
-  };
-
   useEffect(() => {
     const putCard = {
-      id: card.id,
-      nombre: name.charAt(0).toUpperCase() + name.slice(1),
-      apellido: lastName.charAt(0).toUpperCase() + lastName.slice(1),
+      id: card.cartas.id,
+      nombre: name.charAt(0).toUpperCase() + name.toLowerCase().slice(1),
+      apellido:
+        lastName.charAt(0).toUpperCase() + lastName.toLowerCase().slice(1),
       foto: `${name.toLowerCase()}-${lastName.toLowerCase()}.jpg`,
       id_equipos: team,
       id_posiciones: position,
@@ -74,32 +50,10 @@ export default function EditCard({ card }: card) {
     setEditCard(putCard);
   }, [name, lastName, team, position, rarity, serie, card]);
 
-  useEffect(() => {
-    for (let i = 0; i < teamsState.length; i++) {
-      if (card.equipo === teamsState[i].equipo) {
-        setTeam(teamsState[i].id);
-      }
-    }
-    for (let i = 0; i < positionsState.length; i++) {
-      if (card.posicion === positionsState[i].posicion) {
-        setPosition(positionsState[i].id);
-      }
-    }
-    for (let i = 0; i < raritiesState.length; i++) {
-      if (card.rareza === raritiesState[i].rareza) {
-        setRarity(raritiesState[i].id);
-      }
-    }
-    for (let i = 0; i < seriesState.length; i++) {
-      if (card.serie === seriesState[i].serie) {
-        setSerie(seriesState[i].id);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search]);
-
   const handleClick = (event: React.MouseEvent) => {
-    dispatch(editCardAction(editCard));
+    if (!!editCard) {
+      dispatch(editCardAction(editCard));
+    }
   };
 
   return (
@@ -119,18 +73,26 @@ export default function EditCard({ card }: card) {
       <FormControl>
         <TextField
           sx={{ my: '1rem' }}
-          placeholder={card.nombre}
-          onChange={handleChangeName}
+          placeholder={card.cartas.nombre}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            setName(e.target.value);
+          }}
         />
         <TextField
           sx={{ mb: '1rem' }}
-          placeholder={card.apellido}
-          onChange={handleChangeLastName}
+          placeholder={card.cartas.apellido}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            setLastName(e.target.value);
+          }}
         />
       </FormControl>
       <FormControl sx={{ mb: '1rem' }}>
-        <Select value={team} onChange={handleChangeTeam}>
-          <MenuItem value={team}>{card.equipo}</MenuItem>
+        <Select
+          value={team}
+          onChange={(e: any) => {
+            setTeam(e.target.value);
+          }}
+        >
           {teamsState &&
             teamsState.map((data) => {
               return (
@@ -142,8 +104,12 @@ export default function EditCard({ card }: card) {
         </Select>
       </FormControl>
       <FormControl sx={{ mb: '1rem' }}>
-        <Select value={position} onChange={handleChangePosition}>
-          <MenuItem value={position}>{card.posicion}</MenuItem>
+        <Select
+          value={position}
+          onChange={(e: any) => {
+            setPosition(e.target.value);
+          }}
+        >
           {positionsState &&
             positionsState.map((data) => {
               return (
@@ -155,8 +121,12 @@ export default function EditCard({ card }: card) {
         </Select>
       </FormControl>
       <FormControl sx={{ mb: '1rem' }}>
-        <Select value={rarity} onChange={handleChangeRarity}>
-          <MenuItem value={rarity}>{card.rareza}</MenuItem>
+        <Select
+          value={rarity}
+          onChange={(e: any) => {
+            setRarity(e.target.value);
+          }}
+        >
           {raritiesState &&
             raritiesState.map((data) => {
               return (
@@ -168,8 +138,12 @@ export default function EditCard({ card }: card) {
         </Select>
       </FormControl>
       <FormControl sx={{ mb: '1rem' }}>
-        <Select value={serie} onChange={handleChangeSerie}>
-          <MenuItem value={serie}>{card.serie}</MenuItem>
+        <Select
+          value={serie}
+          onChange={(e: any) => {
+            setSerie(e.target.value);
+          }}
+        >
           {seriesState &&
             seriesState.map((data) => {
               return (

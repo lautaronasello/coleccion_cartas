@@ -5,7 +5,7 @@ const getCards = async (req, res) => {
   try {
     const pool = await getConnection();
     const result = await pool.request().query(queries.getAllCards);
-    res.json(result.recordset);
+    res.json(JSON.parse(result.recordset[0].data));
   } catch (error) {
     res.status(500);
     res.send(error.message);
@@ -101,9 +101,8 @@ const updateCardById = async (req, res) => {
   res.status(200).json('Card edit successfully');
 };
 
-const getCardById = async (req, res) => {
+const getCardByIdNumber = async (req, res) => {
   const { id } = req.params;
-
   const pool = await getConnection();
   const result = await pool
     .request()
@@ -113,7 +112,7 @@ const getCardById = async (req, res) => {
   if (result.recordset.length === 0) {
     return res.status(400).send('Forbbiden. The card is not in the colection.');
   }
-  res.status(200).send(result.recordset[0]);
+  res.status(200).json(JSON.parse(result.recordset[0].data));
 };
 
 const getCardByName = async (req, res) => {
@@ -125,14 +124,14 @@ const getCardByName = async (req, res) => {
     .input('name', sql.VarChar, `%${name}%`)
     .query(queries.getCardByName);
 
-  res.status(200).send(result.recordset);
+  res.status(200).json(JSON.parse(result.recordset[0].data));
 };
 
-const getTeams = async (req, res) => {
+const getAllTeams = async (req, res) => {
   try {
     const pool = await getConnection();
     const result = await pool.request().query(queries.getTeams);
-    res.json(result.recordset);
+    res.send(result.recordset);
   } catch (error) {
     res.status(500);
     res.send(error.message);
@@ -175,11 +174,11 @@ const getRarities = async (req, res) => {
 module.exports = {
   getCards,
   postCards,
-  getCardById,
+  getCardByIdNumber,
   deleteCardById,
   updateCardById,
   getCardByName,
-  getTeams,
+  getAllTeams,
   getPositions,
   getRarities,
   getSeries,
